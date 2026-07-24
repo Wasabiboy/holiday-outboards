@@ -132,8 +132,10 @@ section{padding:56px 0}
 /* ===== SERVICE ===== */
 .service-section{background:var(--grey)}
 .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.service-card{background:var(--white);border-radius:12px;padding:28px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--line)}
-.service-card .svc-icon{width:56px;height:56px;margin:0 auto 14px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:1.4rem}
+.service-card{background:var(--white);border-radius:12px;padding:0;overflow:hidden;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--line);display:flex;flex-direction:column}
+.service-card .card-photo{height:160px;overflow:hidden;background:var(--grey)}
+.service-card .card-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.service-card .card-body{padding:20px 22px;flex:1;display:flex;flex-direction:column}
 .service-card h4{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:6px}
 .service-card p{font-size:.88rem;color:#666}
 
@@ -156,7 +158,7 @@ section{padding:56px 0}
 .map-wrap iframe{width:100%;height:100%;border:0;position:absolute;top:0;left:0}
 
 /* ===== ABOUT ===== */
-.about-section{background:var(--teal);color:var(--white);text-align:center}
+.about-section{background:var(--teal);color:var(--white);text-align:center;padding:56px 0}
 .about-section .container{max-width:760px}
 .about-section h2{font-size:2rem;font-weight:800;margin-bottom:16px}
 .about-section p{font-size:1rem;opacity:.9;margin-bottom:12px}
@@ -164,6 +166,59 @@ section{padding:56px 0}
 .about-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:16px 24px;text-align:center}
 .about-badge .ab-num{font-size:1.8rem;font-weight:800;color:var(--cream)}
 .about-badge .ab-lbl{font-size:.78rem;opacity:.8;text-transform:uppercase;letter-spacing:1px}
+
+.about-story{background:var(--white);padding:56px 0}
+.about-story .container{max-width:820px}
+.about-story h2{font-size:1.8rem;font-weight:800;color:var(--navy);margin-bottom:18px;letter-spacing:-.3px}
+.about-story h3{font-size:1.25rem;font-weight:800;color:var(--navy);margin:36px 0 14px}
+.about-story p{font-size:1.02rem;color:#444;line-height:1.7;margin-bottom:16px}
+.about-story .story-lead{font-size:1.08rem;color:var(--dark);font-weight:500}
+.about-story .brand-block{margin-top:40px;padding:28px 30px;background:var(--grey);border-left:4px solid var(--navy);border-radius:0 12px 12px 0}
+.about-story .brand-block h3{margin-top:0}
+.about-story .brand-block .brand-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--teal);margin-bottom:8px}
+
+/* ===== ARTICLE TEASER ===== */
+.article-teaser{margin:36px 0 0;display:flex;gap:22px;align-items:stretch;background:var(--white);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit;padding:0;transition:transform .15s,box-shadow .15s}
+.article-teaser:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.article-teaser .at-photo{flex:0 0 200px;min-height:140px;background:linear-gradient(135deg,var(--navy),var(--teal));position:relative}
+.article-teaser .at-photo img{width:100%;height:100%;object-fit:cover}
+.article-teaser .at-body{padding:22px 24px 22px 0;flex:1}
+.article-teaser .at-meta{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--teal);margin-bottom:6px}
+.article-teaser h3{font-size:1.2rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+.article-teaser p{font-size:.92rem;color:#555;margin:0 0 12px;line-height:1.55}
+.article-teaser .at-cta{font-size:.9rem;font-weight:700;color:var(--navy)}
+
+/* ===== ARTICLE MODAL ===== */
+.article-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.article-modal.open{display:flex}
+.article-modal .am-backdrop{position:absolute;inset:0;background:rgba(1,27,62,.65);backdrop-filter:blur(3px)}
+.article-modal .am-dialog{position:relative;background:var(--white);border-radius:14px;max-width:720px;width:100%;max-height:min(88vh,820px);overflow:auto;box-shadow:0 16px 48px rgba(0,0,0,.28);outline:none}
+.article-modal .am-close{position:sticky;top:0;float:right;z-index:2;margin:12px 12px 0 0;width:36px;height:36px;border:none;border-radius:50%;background:var(--navy);color:var(--white);font-size:1.3rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.article-modal .am-close:hover{background:var(--teal)}
+.article-modal .am-hero{height:180px;background:linear-gradient(135deg,var(--navy),var(--teal));overflow:hidden}
+.article-modal .am-hero img{width:100%;height:100%;object-fit:cover}
+.article-modal .am-content{padding:28px 32px 32px}
+.article-modal .am-source{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--teal);margin-bottom:8px}
+.article-modal h2{font-size:1.55rem;font-weight:800;color:var(--navy);letter-spacing:-.3px;margin-bottom:6px;line-height:1.25}
+.article-modal .am-sub{font-size:1.05rem;font-weight:600;color:var(--dark);margin-bottom:18px}
+.article-modal .am-date{font-size:.82rem;color:#888;margin-bottom:22px}
+.article-modal .am-content p{font-size:.98rem;color:#444;line-height:1.7;margin-bottom:14px}
+.article-modal .am-pillars{display:grid;gap:12px;margin:18px 0 20px}
+.article-modal .am-pillar{background:var(--grey);border-radius:10px;padding:14px 16px;border-left:3px solid var(--navy)}
+.article-modal .am-pillar strong{display:block;color:var(--navy);font-size:.9rem;margin-bottom:4px}
+.article-modal .am-pillar span{font-size:.88rem;color:#555;line-height:1.55}
+.article-modal .am-footer{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.article-modal .am-footer a.am-link{display:inline-block;background:var(--navy);color:var(--white);padding:10px 18px;border-radius:8px;font-weight:700;font-size:.9rem}
+.article-modal .am-footer a.am-link:hover{background:var(--teal);text-decoration:none}
+.article-modal .am-credit{font-size:.78rem;color:#888}
+body.modal-open{overflow:hidden}
+@media(max-width:600px){
+  .article-teaser{flex-direction:column}
+  .article-teaser .at-photo{flex:none;height:140px}
+  .article-teaser .at-body{padding:18px 20px}
+  .article-modal .am-content{padding:22px 20px 24px}
+  .article-modal .am-hero{height:140px}
+}
 
 /* ===== FOOTER ===== */
 .footer{background:var(--navy);color:var(--white);padding:40px 0 24px}
@@ -249,8 +304,7 @@ section{padding:56px 0}
 <section class="about-section" id="about">
   <div class="container">
     <h2>About Holiday Outboards</h2>
-    <p>Holiday Outboards is a family-owned business that has been servicing and repairing boat outboard motors in Auckland since 1967. We are certified master technicians in selling and servicing Evinrude and Honda, and experts in servicing all outboard boat motors including Johnson, Yamaha, Mercury, Suzuki, and Parsun.</p>
-    <p>We carry a full range of parts and accessories for most outboard makes, with specialist equipment and factory-trained personnel for any service or repair job. We also have a large boat storage and parking facility adjoining our workshop.</p>
+    <p>Family-owned marine workshop in Albany, Auckland since 1967 — sales, service, parts and boat storage.</p>
     <div class="about-badges">
       <div class="about-badge"><div class="ab-num">1967</div><div class="ab-lbl">Established</div></div>
       <div class="about-badge"><div class="ab-num">58+</div><div class="ab-lbl">Years experience</div></div>
@@ -259,6 +313,74 @@ section{padding:56px 0}
     </div>
   </div>
 </section>
+
+<section class="about-story">
+  <div class="container">
+    <h2>Holiday Outboards</h2>
+    <p class="story-lead">Coming from a background of racing outboard-powered flat watercraft, we supply and service a wide range of outboards, specializing in the Bombardier, Johnson, and Evinrude ranges.</p>
+    <p>Here at Holiday Outboards, we carry a full range of parts and accessories for most outboard makes and have all the specialist equipment and factory-trained personnel to carry out any service or repair job. We offer a free price estimate service on larger jobs and can store your whole boat under cover if need be.</p>
+    <p>We have a large Boat-Park facility adjoining our workshop for inexpensive boat parking. Drop-in some time and have a look at the many qualification certificates proudly displayed on our showroom walls and you will be assured of a fast economical friendly service, or drop us an e-mail. We look forward to meeting you in person soon.</p>
+
+    <button type="button" class="article-teaser" id="openArticleModal" aria-haspopup="dialog" aria-controls="articleModal">
+      <div class="at-photo">
+        <img src="img/visit-us-storefront.jpg" alt="Holiday Outboards storefront, Albany">
+      </div>
+      <div class="at-body">
+        <div class="at-meta">Power Boat Magazine · July 2024</div>
+        <h3>Holiday Outboard Celebrates 50 Years</h3>
+        <p>Celebrating 50 years of services &amp; boat storage — our story as featured in Power Boat Magazine.</p>
+        <span class="at-cta">Read the article &rsaquo;</span>
+      </div>
+    </button>
+
+    <div class="brand-block">
+      <div class="brand-tag">Evinrude &amp; Bombardier</div>
+      <h3>About Evinrude® — Innovation Delivering Passion</h3>
+      <p>Ever since J.-A. Bombardier founded the company in 1942, our name has been synonymous with quality and creativity. His pioneering spirit is a legacy that has kept us growing and exploring new frontiers. Today, in the Americas, Europe and Asia-Pacific, almost 7,500 people are keeping the Bombardier spirit alive in all of our recreational vehicles and products.</p>
+      <p>At Bombardier Recreational Products, innovation and passion are at the heart of our commitment, our products, and our brands. Whether it be our Sea-Doo watercraft and sport boats; our Ski-Doo® and Lynx® snowmobiles; our Rotax® karts and engines; our Can-Am™ ATVs and utility vehicles or our Evinrude® and Johnson® outboard engines, these values come alive through technology and design, inspired by a single and common compelling mission: to deliver to consumers the most extraordinary recreational experience.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE MODAL -->
+<div class="article-modal" id="articleModal" role="dialog" aria-modal="true" aria-labelledby="articleModalTitle" hidden>
+  <div class="am-backdrop" data-close-modal></div>
+  <div class="am-dialog" tabindex="-1">
+    <button type="button" class="am-close" data-close-modal aria-label="Close article">&times;</button>
+    <div class="am-hero">
+      <img src="img/visit-us-storefront.jpg" alt="Holiday Outboards at 209 Bush Road, Albany">
+    </div>
+    <div class="am-content">
+      <div class="am-source">Featured in Power Boat Magazine</div>
+      <h2 id="articleModalTitle">Holiday Outboard Celebrates 50 Years</h2>
+      <p class="am-sub">Celebrating 50 Years of Services &amp; Boat Storage.</p>
+      <p class="am-date">Published 19 July 2024</p>
+      <p>For over 50 years, Holiday Outboard Services has been dedicated to servicing and repairing outboard motors of all makes and models, specialising as Johnson, Evinrude, and Honda dealers. The company’s journey began in 1968 when Keith Smith founded Holiday Marine. In 1975, Ian Gallop took the helm, and in 1989, current owner Stuart Andrew joined the team. The company was rebranded to Holiday Outboard Services in 1991, the name under which it operates today.</p>
+      <p>Holiday Outboard Services caters to a diverse clientele from all over New Zealand and the Pacific Islands. Many customers have been loyal for years, returning repeatedly for the exceptional service and respect they receive. The team of Stu (38), Jeremy (38), Lance (25) and John (5) — years of experience — is known for taking the time to explain issues and provide effective solutions, boasting one of the largest selections of parts for older engines in Auckland. With decades of accumulated knowledge and experience, Holiday Outboard Services is truly a customer-focused business.</p>
+      <p>The pride in their work is evident when talking to the team at Holiday Outboards, with their commitment driven by three main factors:</p>
+      <div class="am-pillars">
+        <div class="am-pillar">
+          <strong>Safety</strong>
+          <span>Ensuring the safety of boat owners, their families, and friends is a top priority. As Stuart Andrew says, “It can get very nasty very fast on the water.”</span>
+        </div>
+        <div class="am-pillar">
+          <strong>Expertise</strong>
+          <span>The staff are highly trained, with Master Technicians on site. Collectively, the staff boasts over 106 years of experience in the industry.</span>
+        </div>
+        <div class="am-pillar">
+          <strong>Dedication</strong>
+          <span>The team are passionate about providing the best service possible because they themselves are boaties and genuinely love what they do. Stuart Andrew, the Director, has over 38 years of experience in the marine industry, including offshore power-boat and circuit racing. Before his career in marine, Stuart served in the UK military before emigrating to New Zealand.</span>
+        </div>
+      </div>
+      <p>In addition to their service and repair shop, Holiday Outboards also operates a 4,000-square-metre, fully secured storage facility on-site. The facility offers 24-hour access via individually coded security tags, boat wash facilities, a drop-off and pick-up service to boat ramps, and a boat valet service. For more information, call (09) 448 1650 or visit them at 209 Bush Road, Rosedale, Auckland.</p>
+      <div class="am-footer">
+        <a class="am-link" href="https://powerboatmagazine.co.nz/holiday-outboard-celebrates-50-years/" target="_blank" rel="noopener noreferrer">Read on Power Boat Magazine &rsaquo;</a>
+        <span class="am-credit">Source: Power Boat Magazine</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container">
@@ -306,6 +428,36 @@ section{padding:56px 0}
 document.getElementById('burger').addEventListener('click',function(){
   document.getElementById('nav').classList.toggle('open');
 });
+
+(function(){
+  var modal = document.getElementById('articleModal');
+  var openBtn = document.getElementById('openArticleModal');
+  if(!modal || !openBtn) return;
+  var dialog = modal.querySelector('.am-dialog');
+  var lastFocus = null;
+
+  function openModal(){
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    modal.classList.add('open');
+    document.body.classList.add('modal-open');
+    if(dialog) dialog.focus();
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+    if(lastFocus) lastFocus.focus();
+  }
+
+  openBtn.addEventListener('click', openModal);
+  modal.querySelectorAll('[data-close-modal]').forEach(function(el){
+    el.addEventListener('click', closeModal);
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+})();
 </script>
 
 <script src="js/google-reviews.js"></script>

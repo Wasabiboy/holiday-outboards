@@ -132,8 +132,10 @@ section{padding:56px 0}
 /* ===== SERVICE ===== */
 .service-section{background:var(--grey)}
 .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.service-card{background:var(--white);border-radius:12px;padding:28px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--line)}
-.service-card .svc-icon{width:56px;height:56px;margin:0 auto 14px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:1.4rem}
+.service-card{background:var(--white);border-radius:12px;padding:0;overflow:hidden;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--line);display:flex;flex-direction:column}
+.service-card .card-photo{height:160px;overflow:hidden;background:var(--grey)}
+.service-card .card-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.service-card .card-body{padding:20px 22px;flex:1;display:flex;flex-direction:column}
 .service-card h4{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:6px}
 .service-card p{font-size:.88rem;color:#666}
 
@@ -255,34 +257,46 @@ section{padding:56px 0}
     </div>
     <div class="service-grid">
       <div class="service-card">
-        <div class="svc-icon">&#9881;</div>
-        <h4>Full Workshop Service</h4>
-        <p>Routine servicing to major overhauls. All makes: Honda, Yamaha, Mercury, Suzuki, Johnson, Evinrude, Parsun.</p>
+        <div class="card-photo"><img src="img/card-nz-workshop.jpg" alt="Marine workshop with outboard motors on stands"></div>
+        <div class="card-body">
+          <h4>Full Workshop Service</h4>
+          <p>Routine servicing to major overhauls. All makes: Honda, Yamaha, Mercury, Suzuki, Johnson, Evinrude, Parsun.</p>
+        </div>
       </div>
       <div class="service-card">
-        <div class="svc-icon">&#9889;</div>
-        <h4>Dyno Testing</h4>
-        <p>Our outboard dyno-tester ensures your engine is performing to specification after any repair or service.</p>
+        <div class="card-photo"><img src="img/card-nz-dyno.jpg" alt="Outboard motor on dyno test stand in workshop"></div>
+        <div class="card-body">
+          <h4>Dyno Testing</h4>
+          <p>Our outboard dyno-tester ensures your engine is performing to specification after any repair or service.</p>
+        </div>
       </div>
       <div class="service-card">
-        <div class="svc-icon">&#128202;</div>
-        <h4>Free Price Estimates</h4>
-        <p>We offer free price estimates on larger jobs so you know the cost upfront — no surprises.</p>
+        <div class="card-photo"><img src="img/card-nz-estimates.jpg" alt="Marine service counter with estimate paperwork"></div>
+        <div class="card-body">
+          <h4>Free Price Estimates</h4>
+          <p>We offer free price estimates on larger jobs so you know the cost upfront — no surprises.</p>
+        </div>
       </div>
       <div class="service-card">
-        <div class="svc-icon">&#127993;</div>
-        <h4>Boat Storage & Parking</h4>
-        <p>Large boat-park facility adjoining our workshop for inexpensive covered and uncovered boat storage.</p>
+        <div class="card-photo"><img src="img/card-nz-storage.jpg" alt="Covered boat storage shed with boats on trailers"></div>
+        <div class="card-body">
+          <h4>Boat Storage & Parking</h4>
+          <p>Large boat-park facility adjoining our workshop for inexpensive covered and uncovered boat storage.</p>
+        </div>
       </div>
       <div class="service-card">
-        <div class="svc-icon">&#128736;</div>
-        <h4>Pre-Season Checks</h4>
-        <p>Get your outboard ready for summer — general check, preventative maintenance, gearcase inspection and flushing.</p>
+        <div class="card-photo"><img src="img/card-nz-summer.jpg" alt="Summer boat launch at a New Zealand beach ramp"></div>
+        <div class="card-body">
+          <h4>Pre-Season Checks</h4>
+          <p>Get your outboard ready for summer — general check, preventative maintenance, gearcase inspection and flushing.</p>
+        </div>
       </div>
       <div class="service-card">
-        <div class="svc-icon">&#127946;</div>
-        <h4>Racing Heritage</h4>
-        <p>Our background in racing outboard-powered flat watercraft means we know performance parts and setup inside out.</p>
+        <div class="card-photo"><img src="img/card-nz-racing.jpg" alt="Race boat on a New Zealand lake with green hills"></div>
+        <div class="card-body">
+          <h4>Racing Heritage</h4>
+          <p>Our background in racing outboard-powered flat watercraft means we know performance parts and setup inside out.</p>
+        </div>
       </div>
     </div>
   </div>

@@ -132,8 +132,10 @@ section{padding:56px 0}
 /* ===== SERVICE ===== */
 .service-section{background:var(--grey)}
 .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.service-card{background:var(--white);border-radius:12px;padding:28px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--line)}
-.service-card .svc-icon{width:56px;height:56px;margin:0 auto 14px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:1.4rem}
+.service-card{background:var(--white);border-radius:12px;padding:0;overflow:hidden;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--line);display:flex;flex-direction:column}
+.service-card .card-photo{height:160px;overflow:hidden;background:var(--grey)}
+.service-card .card-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.service-card .card-body{padding:20px 22px;flex:1;display:flex;flex-direction:column}
 .service-card h4{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:6px}
 .service-card p{font-size:.88rem;color:#666}
 
@@ -148,10 +150,15 @@ section{padding:56px 0}
 .contact-info .ci-label{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;opacity:.6}
 .contact-info .ci-value{font-size:.95rem;font-weight:600}
 .contact-info .ci-value a{color:var(--cream)}
-.contact-info .emergency-box{margin-top:18px;background:rgba(255,226,199,.1);border:1px solid var(--cream);border-radius:8px;padding:14px}
-.contact-info .emergency-box .em-label{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--cream);font-weight:700}
-.contact-info .emergency-box .em-num{font-size:1.3rem;font-weight:800;margin-top:2px}
-.contact-info .emergency-box .em-note{font-size:.78rem;opacity:.8;margin-top:2px}
+.contact-info .primary-phone{margin:14px 0;background:rgba(255,226,199,.12);border:1px solid var(--cream);border-radius:8px;padding:14px 16px}
+.contact-info .primary-phone .em-label{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--cream);font-weight:700}
+.contact-info .primary-phone .em-num{font-size:1.35rem;font-weight:800;margin-top:4px}
+.contact-info .primary-phone .em-num a{color:var(--cream);text-decoration:none}
+.contact-info .primary-phone .em-num a:hover{text-decoration:underline}
+.contact-info .primary-phone .em-note{font-size:.78rem;opacity:.8;margin-top:4px}
+.contact-info .ci-row.muted .ci-label{opacity:.5}
+.contact-info .ci-row.muted .ci-value{font-size:.88rem;font-weight:500;opacity:.75}
+.contact-info .ci-row.muted .ci-value a{color:rgba(255,255,255,.75)}
 .map-wrap{min-height:400px;position:relative}
 .map-wrap iframe{width:100%;height:100%;border:0;position:absolute;top:0;left:0}
 
@@ -262,12 +269,10 @@ section{padding:56px 0}
             <div class="ci-value">209 Bush Rd, Albany, Auckland</div>
           </div>
         </div>
-        <div class="ci-row">
-          <div class="ci-icon">&#9742;</div>
-          <div>
-            <div class="ci-label">Workshop Phone</div>
-            <div class="ci-value"><a href="tel:+6494481650">(09) 448 1650</a></div>
-          </div>
+        <div class="primary-phone">
+          <div class="em-label">Workshop Phone</div>
+          <div class="em-num"><a href="tel:+6494481650">(09) 448 1650</a></div>
+          <div class="em-note">Main number — call here first</div>
         </div>
         <div class="ci-row">
           <div class="ci-icon">&#9993;</div>
@@ -290,10 +295,12 @@ section{padding:56px 0}
             <div class="ci-value">Mon–Fri 8:00am–5:30pm · Sat by appointment</div>
           </div>
         </div>
-        <div class="emergency-box">
-          <div class="em-label">Mobile — Emergency Calls Only</div>
-          <div class="em-num"><a href="tel:+6421797988" style="color:var(--cream);text-decoration:none">021 797 988</a></div>
-          <div class="em-note">For urgent on-water or after-hours emergencies only</div>
+        <div class="ci-row muted">
+          <div class="ci-icon">&#128241;</div>
+          <div>
+            <div class="ci-label">Mobile — Emergency Only</div>
+            <div class="ci-value"><a href="tel:+6421797988">021 797 988</a> · urgent / after-hours only</div>
+          </div>
         </div>
       </div>
       <div class="map-wrap">

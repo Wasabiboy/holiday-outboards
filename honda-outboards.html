@@ -133,8 +133,10 @@ section{padding:56px 0}
 /* ===== SERVICE ===== */
 .service-section{background:var(--grey)}
 .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.service-card{background:var(--white);border-radius:12px;padding:28px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--line)}
-.service-card .svc-icon{width:56px;height:56px;margin:0 auto 14px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:1.4rem}
+.service-card{background:var(--white);border-radius:12px;padding:0;overflow:hidden;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--line);display:flex;flex-direction:column}
+.service-card .card-photo{height:160px;overflow:hidden;background:var(--grey)}
+.service-card .card-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.service-card .card-body{padding:20px 22px;flex:1;display:flex;flex-direction:column}
 .service-card h4{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:6px}
 .service-card p{font-size:.88rem;color:#666}
 

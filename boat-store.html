@@ -132,8 +132,10 @@ section{padding:56px 0}
 /* ===== SERVICE ===== */
 .service-section{background:var(--grey)}
 .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.service-card{background:var(--white);border-radius:12px;padding:28px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--line)}
-.service-card .svc-icon{width:56px;height:56px;margin:0 auto 14px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:1.4rem}
+.service-card{background:var(--white);border-radius:12px;padding:0;overflow:hidden;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid var(--line);display:flex;flex-direction:column}
+.service-card .card-photo{height:160px;overflow:hidden;background:var(--grey)}
+.service-card .card-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.service-card .card-body{padding:20px 22px;flex:1;display:flex;flex-direction:column}
 .service-card h4{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:6px}
 .service-card p{font-size:.88rem;color:#666}
 
@@ -255,24 +257,32 @@ section{padding:56px 0}
     </div>
     <div class="service-grid">
       <div class="service-card">
-        <div class="svc-icon">&#128274;</div>
-        <h4>24/7 Secure Access</h4>
-        <p>Open 24 hours a day, 7 days a week. Entry is by numbered ID tag only — your boat is safe and accessible whenever you need it.</p>
+        <div class="card-photo"><img src="img/card-nz-marina.jpg" alt="New Zealand marina pontoons with recreational boats"></div>
+        <div class="card-body">
+          <h4>24/7 Secure Access</h4>
+          <p>Open 24 hours a day, 7 days a week. Entry is by numbered ID tag only — your boat is safe and accessible whenever you need it.</p>
+        </div>
       </div>
       <div class="service-card">
-        <div class="svc-icon">&#127993;</div>
-        <h4>Large Boat Park</h4>
-        <p>Large boat-park facility adjoining our workshop. Covered and uncovered options available.</p>
+        <div class="card-photo"><img src="img/card-nz-storage.jpg" alt="Covered boat storage shed with boats on trailers"></div>
+        <div class="card-body">
+          <h4>Large Boat Park</h4>
+          <p>Large boat-park facility adjoining our workshop. Covered and uncovered options available.</p>
+        </div>
       </div>
       <div class="service-card">
-        <div class="svc-icon">&#9881;</div>
-        <h4>Service On-Site</h4>
-        <p>Need a service while your boat is stored? Our workshop is right next door — book it in anytime.</p>
+        <div class="card-photo"><img src="img/card-nz-workshop.jpg" alt="Marine workshop with outboard motors on stands"></div>
+        <div class="card-body">
+          <h4>Service On-Site</h4>
+          <p>Need a service while your boat is stored? Our workshop is right next door — book it in anytime.</p>
+        </div>
       </div>
       <div class="service-card">
-        <div class="svc-icon">&#128176;</div>
-        <h4>Inexpensive Rates</h4>
-        <p>Affordable storage rates with flexible terms. Contact us for pricing and availability.</p>
+        <div class="card-photo"><img src="img/card-nz-secondhand.jpg" alt="North Shore boat ramp and trailers near Albany"></div>
+        <div class="card-body">
+          <h4>Inexpensive Rates</h4>
+          <p>Affordable storage rates with flexible terms. Contact us for pricing and availability.</p>
+        </div>
       </div>
     </div>
     <div style="text-align:center;margin-top:36px">
