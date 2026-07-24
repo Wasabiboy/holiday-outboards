@@ -34,12 +34,8 @@ a:hover{text-decoration:underline}
 .topbar .topbar-info span{display:flex;align-items:center;gap:5px}
 
 .header{background:var(--white);border-bottom:3px solid var(--navy);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.header .container{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;gap:20px}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-mark{width:46px;height:46px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-weight:800;font-size:1.1rem;letter-spacing:-1px}
-.logo-text{font-size:1.35rem;font-weight:800;color:var(--navy);letter-spacing:-.5px}
-.logo-text small{display:block;font-size:.72rem;font-weight:500;color:var(--teal);letter-spacing:1px;text-transform:uppercase}
-.nav{display:flex;gap:24px;align-items:center}
+.header .container{display:flex;justify-content:center;align-items:center;padding:14px 20px;gap:20px;position:relative}
+.nav{display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:center}
 .nav a{color:var(--dark);font-weight:600;font-size:.92rem;padding:6px 0;border-bottom:2px solid transparent;transition:border-color .2s}
 .nav a:hover{border-color:var(--navy);text-decoration:none}
 .nav .btn-call{background:var(--navy);color:var(--white);padding:8px 18px;border-radius:6px;font-weight:700}
@@ -191,7 +187,8 @@ section{padding:56px 0}
   .footer .container{grid-template-columns:1fr 1fr}
   .nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--white);flex-direction:column;padding:14px 20px;box-shadow:0 4px 12px rgba(0,0,0,.1);gap:10px}
   .nav.open{display:flex}
-  .burger{display:block}
+  .burger{display:block;margin-left:auto}
+  .header .container{justify-content:flex-end}
 }
 @media(max-width:600px){
   .hero-video{height:45vh;min-height:260px}
@@ -231,10 +228,6 @@ section{padding:56px 0}
 <!-- HEADER -->
 <header class="header">
   <div class="container">
-    <a href="index.html" class="logo" style="text-decoration:none">
-      <div class="logo-mark">HO</div>
-      <div class="logo-text">Holiday Outboards<small>Albany · Auckland · Since 1967</small></div>
-    </a>
     <nav class="nav" id="nav">
       <a href="index.html" style="border-bottom:2px solid var(--navy)">Home</a>
       <a href="honda-outboards.html">Honda Outboards</a>
@@ -277,7 +270,7 @@ section{padding:56px 0}
       <p>Holiday Outboards is Auckland's trusted Honda Marine dealer. From new Honda outboards to second-hand engines, parts, and full workshop service — we've been keeping Kiwis on the water for over 58 years.</p>
     </div>
     <div class="service-grid">
-      <div class="service-card" style="background-image:url('img/bf250.jpg');background-size:cover;background-position:center;position:relative">
+      <div class="service-card" style="background-image:url('img/bf250.png');background-size:cover;background-position:center;position:relative">
         <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.88);border-radius:12px"></div>
         <div style="position:relative">
           <div class="svc-icon">&#9881;</div>
@@ -286,7 +279,7 @@ section{padding:56px 0}
           <p style="margin-top:10px"><a href="honda-outboards.html" class="enquire">View range &rsaquo;</a></p>
         </div>
       </div>
-      <div class="service-card" style="background-image:url('img/bf60.jpg');background-size:cover;background-position:center;position:relative">
+      <div class="service-card" style="background-image:url('img/bf60.png');background-size:cover;background-position:center;position:relative">
         <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.88);border-radius:12px"></div>
         <div style="position:relative">
           <div class="svc-icon">&#9875;</div>
@@ -295,7 +288,7 @@ section{padding:56px 0}
           <p style="margin-top:10px"><a href="second-hand.html" class="enquire">Browse stock &rsaquo;</a></p>
         </div>
       </div>
-      <div class="service-card" style="background-image:url('img/bf115.webp');background-size:cover;background-position:center;position:relative">
+      <div class="service-card" style="background-image:url('img/bf115.png');background-size:cover;background-position:center;position:relative">
         <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.88);border-radius:12px"></div>
         <div style="position:relative">
           <div class="svc-icon">&#128736;</div>
@@ -304,7 +297,7 @@ section{padding:56px 0}
           <p style="margin-top:10px"><a href="service.html" class="enquire">Our services &rsaquo;</a></p>
         </div>
       </div>
-      <div class="service-card" style="background-image:url('img/bf200.jpg');background-size:cover;background-position:center;position:relative">
+      <div class="service-card" style="background-image:url('img/bf200.png');background-size:cover;background-position:center;position:relative">
         <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.88);border-radius:12px"></div>
         <div style="position:relative">
           <div class="svc-icon">&#128205;</div>

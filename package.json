@@ -1,0 +1,28 @@
+{
+  "name": "holiday-outboards",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "netlify dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wasabiboy/holiday-outboards.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Wasabiboy/holiday-outboards/issues"
+  },
+  "homepage": "https://github.com/Wasabiboy/holiday-outboards#readme",
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2"
+  }
+}

@@ -34,12 +34,8 @@ a:hover{text-decoration:underline}
 .topbar .topbar-info span{display:flex;align-items:center;gap:5px}
 
 .header{background:var(--white);border-bottom:3px solid var(--navy);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.header .container{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;gap:20px}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-mark{width:46px;height:46px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-weight:800;font-size:1.1rem;letter-spacing:-1px}
-.logo-text{font-size:1.35rem;font-weight:800;color:var(--navy);letter-spacing:-.5px}
-.logo-text small{display:block;font-size:.72rem;font-weight:500;color:var(--teal);letter-spacing:1px;text-transform:uppercase}
-.nav{display:flex;gap:24px;align-items:center}
+.header .container{display:flex;justify-content:center;align-items:center;padding:14px 20px;gap:20px;position:relative}
+.nav{display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:center}
 .nav a{color:var(--dark);font-weight:600;font-size:.92rem;padding:6px 0;border-bottom:2px solid transparent;transition:border-color .2s}
 .nav a:hover{border-color:var(--navy);text-decoration:none}
 .nav .btn-call{background:var(--navy);color:var(--white);padding:8px 18px;border-radius:6px;font-weight:700}
@@ -100,9 +96,9 @@ section{padding:56px 0}
 .outboard-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
 .outboard-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06);transition:transform .15s,box-shadow .15s;border:1px solid var(--line)}
 .outboard-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
-.outboard-card .card-img{height:180px;background-size:cover;background-position:center;display:flex;align-items:flex-end;justify-content:center;position:relative;background:linear-gradient(135deg,var(--navy),var(--teal))}
+.outboard-card .card-img{height:240px;display:flex;align-items:center;justify-content:center;position:relative;background:#0b0b0b;padding:16px 12px}
+.outboard-card .card-img img{max-height:100%;max-width:100%;width:auto;height:auto;object-fit:contain;display:block;margin:0 auto}
 .outboard-card .card-img .hp-badge{position:absolute;top:10px;right:10px;background:var(--cream);color:var(--navy);font-weight:800;font-size:.78rem;padding:4px 10px;border-radius:6px;z-index:1}
-.outboard-card .card-img .model-name{color:var(--white);font-size:1.3rem;font-weight:800;letter-spacing:1px;text-shadow:0 2px 8px rgba(0,0,0,.8);padding-bottom:8px;z-index:1}
 .outboard-card .card-body{padding:16px 18px}
 .outboard-card .card-body h4{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:4px}
 .outboard-card .card-body .specs{font-size:.82rem;color:#666;margin-bottom:10px}
@@ -191,7 +187,8 @@ section{padding:56px 0}
   .footer .container{grid-template-columns:1fr 1fr}
   .nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--white);flex-direction:column;padding:14px 20px;box-shadow:0 4px 12px rgba(0,0,0,.1);gap:10px}
   .nav.open{display:flex}
-  .burger{display:block}
+  .burger{display:block;margin-left:auto}
+  .header .container{justify-content:flex-end}
 }
 @media(max-width:600px){
   .hero-video{height:45vh;min-height:260px}
@@ -231,10 +228,6 @@ section{padding:56px 0}
 <!-- HEADER -->
 <header class="header">
   <div class="container">
-    <a href="index.html" class="logo" style="text-decoration:none">
-      <div class="logo-mark">HO</div>
-      <div class="logo-text">Holiday Outboards<small>Albany · Auckland · Since 1967</small></div>
-    </a>
     <nav class="nav" id="nav">
       <a href="index.html">Home</a>
       <a href="honda-outboards.html" style="border-bottom:2px solid var(--navy)">Honda Outboards</a>
@@ -275,7 +268,7 @@ section{padding:56px 0}
     <div class="outboard-grid" id="outboardGrid">
       <!-- PORTABLE -->
       <div class="outboard-card" data-cat="portable">
-        <div class="card-img" style="background-image:url('img/bf23.jpg')"><span class="hp-badge">2.3 HP</span><span class="model-name">BF2.3</span></div>
+        <div class="card-img"><span class="hp-badge">2.3 HP</span><img src="img/bf23.png" alt="Honda BF2.3 outboard"></div>
         <div class="card-body">
           <h4>Honda BF2.3</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Weight</span><span>12.4 kg</span></div><div><span>Cooling</span><span>Air</span></div></div>
@@ -284,7 +277,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="portable">
-        <div class="card-img" style="background-image:url('img/bf8.jpg')"><span class="hp-badge">5 HP</span><span class="model-name">BF5</span></div>
+        <div class="card-img"><span class="hp-badge">5 HP</span><img src="img/bf5.png" alt="Honda BF5 outboard"></div>
         <div class="card-body">
           <h4>Honda BF5</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Weight</span><span>27 kg</span></div><div><span>Shaft</span><span>Short / Long</span></div></div>
@@ -293,7 +286,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="portable">
-        <div class="card-img" style="background-image:url('img/bf8.jpg')"><span class="hp-badge">8 HP</span><span class="model-name">BF8</span></div>
+        <div class="card-img"><span class="hp-badge">8 HP</span><img src="img/bf8.png" alt="Honda BF8 outboard"></div>
         <div class="card-body">
           <h4>Honda BF8</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Weight</span><span>37 kg</span></div><div><span>Features</span><span>PGM-IG</span></div></div>
@@ -302,7 +295,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="portable">
-        <div class="card-img" style="background-image:url('img/bf10.jpg')"><span class="hp-badge">10 HP</span><span class="model-name">BF10</span></div>
+        <div class="card-img"><span class="hp-badge">10 HP</span><img src="img/bf10.png" alt="Honda BF10 outboard"></div>
         <div class="card-body">
           <h4>Honda BF10</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Weight</span><span>37 kg</span></div><div><span>Features</span><span>PGM-IG</span></div></div>
@@ -311,7 +304,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="portable">
-        <div class="card-img" style="background-image:url('img/bf15.jpg')"><span class="hp-badge">15 HP</span><span class="model-name">BF15</span></div>
+        <div class="card-img"><span class="hp-badge">15 HP</span><img src="img/bf15.png" alt="Honda BF15 outboard"></div>
         <div class="card-body">
           <h4>Honda BF15</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Weight</span><span>42 kg</span></div><div><span>Features</span><span>PGM-IG</span></div></div>
@@ -320,7 +313,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="portable">
-        <div class="card-img" style="background-image:url('img/bf20.jpg')"><span class="hp-badge">20 HP</span><span class="model-name">BF20</span></div>
+        <div class="card-img"><span class="hp-badge">20 HP</span><img src="img/bf20.png" alt="Honda BF20 outboard"></div>
         <div class="card-body">
           <h4>Honda BF20</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Displacement</span><span>350 cc</span></div><div><span>Features</span><span>PGM-IG</span></div></div>
@@ -331,7 +324,7 @@ section{padding:56px 0}
 
       <!-- MID RANGE -->
       <div class="outboard-card" data-cat="midrange">
-        <div class="card-img" style="background-image:url('img/bf20.jpg')"><span class="hp-badge">25 HP</span><span class="model-name">BF25</span></div>
+        <div class="card-img"><span class="hp-badge">25 HP</span><img src="img/bf25.png" alt="Honda BF25 outboard"></div>
         <div class="card-body">
           <h4>Honda BF25</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>3</span></div><div><span>Features</span><span>Lean Burn</span></div></div>
@@ -340,7 +333,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="midrange">
-        <div class="card-img" style="background-image:url('img/bf30.jpg')"><span class="hp-badge">30 HP</span><span class="model-name">BF30</span></div>
+        <div class="card-img"><span class="hp-badge">30 HP</span><img src="img/bf30.png" alt="Honda BF30 outboard"></div>
         <div class="card-body">
           <h4>Honda BF30</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>3</span></div><div><span>Features</span><span>Lean Burn</span></div></div>
@@ -349,7 +342,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="midrange">
-        <div class="card-img" style="background-image:url('img/bf40.jpg')"><span class="hp-badge">40 HP</span><span class="model-name">BF40</span></div>
+        <div class="card-img"><span class="hp-badge">40 HP</span><img src="img/bf40.png" alt="Honda BF40 outboard"></div>
         <div class="card-body">
           <h4>Honda BF40</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>3</span></div><div><span>From</span><span>$11,695</span></div></div>
@@ -358,7 +351,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="midrange">
-        <div class="card-img" style="background-image:url('img/bf50.jpg')"><span class="hp-badge">50 HP</span><span class="model-name">BF50</span></div>
+        <div class="card-img"><span class="hp-badge">50 HP</span><img src="img/bf50.png" alt="Honda BF50 outboard"></div>
         <div class="card-body">
           <h4>Honda BF50</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>3</span></div><div><span>From</span><span>$12,795</span></div></div>
@@ -367,7 +360,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="midrange">
-        <div class="card-img" style="background-image:url('img/bf60.jpg')"><span class="hp-badge">60 HP</span><span class="model-name">BF60</span></div>
+        <div class="card-img"><span class="hp-badge">60 HP</span><img src="img/bf60.png" alt="Honda BF60 outboard"></div>
         <div class="card-body">
           <h4>Honda BF60</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>3</span></div><div><span>From</span><span>$13,895</span></div></div>
@@ -376,7 +369,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="midrange">
-        <div class="card-img" style="background-image:url('img/bf75.jpg')"><span class="hp-badge">75 HP</span><span class="model-name">BF75</span></div>
+        <div class="card-img"><span class="hp-badge">75 HP</span><img src="img/bf75.png" alt="Honda BF75 outboard"></div>
         <div class="card-body">
           <h4>Honda BF75</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>Inline 4</span></div><div><span>Features</span><span>Lean Burn</span></div></div>
@@ -385,7 +378,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="midrange">
-        <div class="card-img" style="background-image:url('img/bf80.jpg')"><span class="hp-badge">80 HP</span><span class="model-name">BF80</span></div>
+        <div class="card-img"><span class="hp-badge">80 HP</span><img src="img/bf80.png" alt="Honda BF80 outboard"></div>
         <div class="card-body">
           <h4>Honda BF80</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>Inline 4</span></div><div><span>From</span><span>$14,995</span></div></div>
@@ -394,7 +387,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="midrange">
-        <div class="card-img" style="background-image:url('img/bf90.jpg')"><span class="hp-badge">90 HP</span><span class="model-name">BF90</span></div>
+        <div class="card-img"><span class="hp-badge">90 HP</span><img src="img/bf90.png" alt="Honda BF90 outboard"></div>
         <div class="card-body">
           <h4>Honda BF90</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>Inline 4</span></div><div><span>Features</span><span>Lean Burn</span></div></div>
@@ -403,7 +396,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="midrange">
-        <div class="card-img" style="background-image:url('img/bf100.jpg')"><span class="hp-badge">100 HP</span><span class="model-name">BF100</span></div>
+        <div class="card-img"><span class="hp-badge">100 HP</span><img src="img/bf100.png" alt="Honda BF100 outboard"></div>
         <div class="card-body">
           <h4>Honda BF100</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>Inline 4</span></div><div><span>Features</span><span>Lean Burn</span></div></div>
@@ -414,7 +407,7 @@ section{padding:56px 0}
 
       <!-- INLINE 4 -->
       <div class="outboard-card" data-cat="inline4">
-        <div class="card-img" style="background-image:url('img/bf115.webp')"><span class="hp-badge">115 HP</span><span class="model-name">BF115</span></div>
+        <div class="card-img"><span class="hp-badge">115 HP</span><img src="img/bf115.png" alt="Honda BF115 outboard"></div>
         <div class="card-body">
           <h4>Honda BF115</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>Inline 4</span></div><div><span>Features</span><span>Lean Burn, VTEC</span></div></div>
@@ -423,7 +416,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="inline4">
-        <div class="card-img" style="background-image:url('img/bf135.webp')"><span class="hp-badge">135 HP</span><span class="model-name">BF135</span></div>
+        <div class="card-img"><span class="hp-badge">135 HP</span><img src="img/bf135.png" alt="Honda BF135 outboard"></div>
         <div class="card-body">
           <h4>Honda BF135</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>Inline 4</span></div><div><span>Features</span><span>Lean Burn, VTEC</span></div></div>
@@ -432,7 +425,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="inline4">
-        <div class="card-img" style="background-image:url('img/bf150.webp')"><span class="hp-badge">150 HP</span><span class="model-name">BF150</span></div>
+        <div class="card-img"><span class="hp-badge">150 HP</span><img src="img/bf150.png" alt="Honda BF150 outboard"></div>
         <div class="card-body">
           <h4>Honda BF150</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>Inline 4</span></div><div><span>Features</span><span>Lean Burn, VTEC</span></div></div>
@@ -443,7 +436,7 @@ section{padding:56px 0}
 
       <!-- HIGH POWER -->
       <div class="outboard-card" data-cat="highpower">
-        <div class="card-img" style="background-image:url('img/bf200.jpg')"><span class="hp-badge">175 HP</span><span class="model-name">BF175</span></div>
+        <div class="card-img"><span class="hp-badge">175 HP</span><img src="img/bf175.png" alt="Honda BF175 outboard"></div>
         <div class="card-body">
           <h4>Honda BF175</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke V6</span></div><div><span>Features</span><span>Lean Burn, VTEC</span></div></div>
@@ -452,7 +445,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="highpower">
-        <div class="card-img" style="background-image:url('img/bf200.jpg')"><span class="hp-badge">200 HP</span><span class="model-name">BF200</span></div>
+        <div class="card-img"><span class="hp-badge">200 HP</span><img src="img/bf200.png" alt="Honda BF200 outboard"></div>
         <div class="card-body">
           <h4>Honda BF200</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke V6</span></div><div><span>Features</span><span>Lean Burn, VTEC</span></div></div>
@@ -461,7 +454,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="highpower">
-        <div class="card-img" style="background-image:url('img/bf200.jpg')"><span class="hp-badge">200 HP</span><span class="model-name">BF200iST</span></div>
+        <div class="card-img"><span class="hp-badge">200 HP</span><img src="img/bf200.png" alt="Honda BF200iST outboard"></div>
         <div class="card-body">
           <h4>Honda BF200iST</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke V6</span></div><div><span>Features</span><span>iST® Digital Shift</span></div></div>
@@ -470,7 +463,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="highpower">
-        <div class="card-img" style="background-image:url('img/bf225.jpg')"><span class="hp-badge">225 HP</span><span class="model-name">BF225</span></div>
+        <div class="card-img"><span class="hp-badge">225 HP</span><img src="img/bf225.png" alt="Honda BF225 outboard"></div>
         <div class="card-body">
           <h4>Honda BF225</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke V6</span></div><div><span>Features</span><span>Lean Burn, VTEC</span></div></div>
@@ -479,7 +472,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="highpower">
-        <div class="card-img" style="background-image:url('img/bf225.jpg')"><span class="hp-badge">225 HP</span><span class="model-name">BF225iST</span></div>
+        <div class="card-img"><span class="hp-badge">225 HP</span><img src="img/bf225.png" alt="Honda BF225iST outboard"></div>
         <div class="card-body">
           <h4>Honda BF225iST</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke V6</span></div><div><span>Features</span><span>iST® Digital Shift</span></div></div>
@@ -488,7 +481,7 @@ section{padding:56px 0}
         </div>
       </div>
       <div class="outboard-card" data-cat="highpower">
-        <div class="card-img" style="background-image:url('img/bf250.jpg')"><span class="hp-badge">250 HP</span><span class="model-name">BF250</span></div>
+        <div class="card-img"><span class="hp-badge">250 HP</span><img src="img/bf250.png" alt="Honda BF250 outboard"></div>
         <div class="card-body">
           <h4>Honda BF250</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke V6</span></div><div><span>Features</span><span>Lean Burn, VTEC</span></div></div>

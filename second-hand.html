@@ -34,12 +34,8 @@ a:hover{text-decoration:underline}
 .topbar .topbar-info span{display:flex;align-items:center;gap:5px}
 
 .header{background:var(--white);border-bottom:3px solid var(--navy);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.header .container{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;gap:20px}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-mark{width:46px;height:46px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-weight:800;font-size:1.1rem;letter-spacing:-1px}
-.logo-text{font-size:1.35rem;font-weight:800;color:var(--navy);letter-spacing:-.5px}
-.logo-text small{display:block;font-size:.72rem;font-weight:500;color:var(--teal);letter-spacing:1px;text-transform:uppercase}
-.nav{display:flex;gap:24px;align-items:center}
+.header .container{display:flex;justify-content:center;align-items:center;padding:14px 20px;gap:20px;position:relative}
+.nav{display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:center}
 .nav a{color:var(--dark);font-weight:600;font-size:.92rem;padding:6px 0;border-bottom:2px solid transparent;transition:border-color .2s}
 .nav a:hover{border-color:var(--navy);text-decoration:none}
 .nav .btn-call{background:var(--navy);color:var(--white);padding:8px 18px;border-radius:6px;font-weight:700}
@@ -132,6 +128,24 @@ section{padding:56px 0}
 .sh-item .badge{margin-left:auto;background:var(--grey);color:var(--dark);font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:12px;white-space:nowrap}
 .sh-cta{margin-top:16px;display:inline-block;font-weight:700;font-size:.9rem}
 
+/* ===== CURRENT STOCK ===== */
+.stock-section{background:var(--grey);padding:56px 0}
+.stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.stock-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06);border:1px solid var(--line);display:flex;flex-direction:column}
+.stock-card .stock-img{height:200px;background:#0b0b0b;display:flex;align-items:center;justify-content:center;position:relative}
+.stock-card .stock-img img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.stock-card .stock-img .hp-badge{position:absolute;top:10px;right:10px;background:var(--cream);color:var(--navy);font-weight:800;font-size:.78rem;padding:4px 10px;border-radius:6px}
+.stock-card .stock-img .placeholder{color:#888;font-size:.85rem}
+.stock-card .stock-body{padding:16px 18px;flex:1;display:flex;flex-direction:column}
+.stock-card .stock-body h4{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:4px}
+.stock-card .stock-meta{font-size:.82rem;color:#666;margin-bottom:8px}
+.stock-card .stock-desc{font-size:.88rem;color:#555;margin-bottom:12px;flex:1}
+.stock-card .stock-price{font-size:1.1rem;font-weight:800;color:var(--teal);margin-bottom:10px}
+.stock-card .enquire{display:inline-block;background:var(--navy);color:var(--white);padding:7px 16px;border-radius:6px;font-size:.85rem;font-weight:600}
+.stock-card .enquire:hover{background:var(--teal);text-decoration:none}
+.stock-empty,.stock-loading,.stock-error{text-align:center;padding:28px 16px;color:#666;font-size:.95rem}
+.stock-error{color:#b42318}
+
 /* ===== SERVICE ===== */
 .service-section{background:var(--grey)}
 .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
@@ -191,7 +205,8 @@ section{padding:56px 0}
   .footer .container{grid-template-columns:1fr 1fr}
   .nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--white);flex-direction:column;padding:14px 20px;box-shadow:0 4px 12px rgba(0,0,0,.1);gap:10px}
   .nav.open{display:flex}
-  .burger{display:block}
+  .burger{display:block;margin-left:auto}
+  .header .container{justify-content:flex-end}
 }
 @media(max-width:600px){
   .hero-video{height:45vh;min-height:260px}
@@ -231,10 +246,6 @@ section{padding:56px 0}
 <!-- HEADER -->
 <header class="header">
   <div class="container">
-    <a href="index.html" class="logo" style="text-decoration:none">
-      <div class="logo-mark">HO</div>
-      <div class="logo-text">Holiday Outboards<small>Albany · Auckland · Since 1967</small></div>
-    </a>
     <nav class="nav" id="nav">
       <a href="index.html">Home</a>
       <a href="honda-outboards.html">Honda Outboards</a>
@@ -330,6 +341,20 @@ section{padding:56px 0}
     </div>
   </div>
 </section>
+
+<!-- CURRENT STOCK (from Supabase) -->
+<section class="stock-section" id="stock">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">In the yard now</span>
+      <h2>Current stock</h2>
+      <p>Second-hand outboards ready to view. Stock changes often — call the workshop to confirm availability.</p>
+    </div>
+    <div id="stockStatus" class="stock-loading">Loading current stock…</div>
+    <div class="stock-grid" id="stockGrid" hidden></div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container">
@@ -373,10 +398,67 @@ section{padding:56px 0}
     &copy; 2026 Holiday Outboards · Albany, Auckland · Since 1967 · All rights reserved
   </div>
 </footer>
+<script src="js/api-client.js"></script>
 <script>
 document.getElementById('burger').addEventListener('click',function(){
   document.getElementById('nav').classList.toggle('open');
 });
+
+(function loadStock() {
+  var statusEl = document.getElementById('stockStatus');
+  var gridEl = document.getElementById('stockGrid');
+  if (!statusEl || !gridEl) return;
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  window.hoApi('/listings')
+    .then(function (data) {
+      var rows = data.listings || [];
+      if (!rows.length) {
+        statusEl.className = 'stock-empty';
+        statusEl.innerHTML = 'No second-hand outboards listed online right now. <a href="contact.html">Contact us</a> or call <a href="tel:+6494481650">(09) 448 1650</a> about current stock.';
+        return;
+      }
+      statusEl.hidden = true;
+      gridEl.hidden = false;
+      gridEl.innerHTML = rows.map(function (row) {
+        var title = [row.make, row.model].filter(Boolean).join(' ');
+        var meta = [];
+        if (row.year) meta.push(String(row.year));
+        if (row.hours != null) meta.push(row.hours + ' hrs');
+        if (row.shaft) meta.push(row.shaft + ' shaft');
+        if (row.condition) meta.push(row.condition);
+        var img = (row.image_urls && row.image_urls[0])
+          ? '<img src="' + escapeHtml(row.image_urls[0]) + '" alt="' + escapeHtml(title) + '">'
+          : '<span class="placeholder">Photo coming soon</span>';
+        var badge = row.hp != null ? '<span class="hp-badge">' + escapeHtml(String(row.hp)) + ' HP</span>' : '';
+        var desc = row.description
+          ? '<p class="stock-desc">' + escapeHtml(row.description.length > 140 ? row.description.slice(0, 140) + '\u2026' : row.description) + '</p>'
+          : '<p class="stock-desc"></p>';
+        var enquire = 'contact.html?subject=' + encodeURIComponent('Enquiry: ' + title + (row.hp ? ' ' + row.hp + 'hp' : ''));
+        return '<article class="stock-card">' +
+          '<div class="stock-img">' + badge + img + '</div>' +
+          '<div class="stock-body">' +
+            '<h4>' + escapeHtml(title) + '</h4>' +
+            (meta.length ? '<div class="stock-meta">' + escapeHtml(meta.join(' \u00b7 ')) + '</div>' : '') +
+            desc +
+            '<div class="stock-price">' + escapeHtml(window.hoFormatPrice(row.price)) + '</div>' +
+            '<a class="enquire" href="' + enquire + '">Enquire now</a>' +
+          '</div>' +
+        '</article>';
+      }).join('');
+    })
+    .catch(function () {
+      statusEl.className = 'stock-empty';
+      statusEl.textContent = 'Call us about current stock — Workshop (09) 448 1650.';
+    });
+})();
 </script>
 
 </body>

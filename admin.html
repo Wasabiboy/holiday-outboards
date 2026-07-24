@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Second-Hand Outboards | Holiday Outboards</title>
+<meta name="robots" content="noindex,nofollow">
+<script src="js/api-client.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#011B3E;--teal:#1a4548;--cream:#ffe2c7;--grey:#F6F6F6;--white:#fff;
+  --dark:#313131;--line:#e0e0e0;--danger:#b42318;--ok:#1a7a4c;
+}
+html{font-size:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;color:var(--dark);background:var(--grey);line-height:1.5;min-height:100vh}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.hidden{display:none!important}
+.top{background:var(--navy);color:var(--white);padding:14px 0}
+.top .container{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.top h1{font-size:1.1rem;font-weight:800}
+.top .meta{font-size:.85rem;opacity:.85}
+.btn{appearance:none;border:none;cursor:pointer;font-weight:700;font-size:.9rem;border-radius:8px;padding:9px 16px}
+.btn-ghost{background:transparent;color:var(--cream);border:1px solid rgba(255,226,199,.4);text-decoration:none;display:inline-block}
+.btn-primary{background:var(--navy);color:var(--white)}
+.btn-cream{background:var(--cream);color:var(--navy)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-outline{background:var(--white);border:1px solid var(--line);color:var(--dark)}
+.btn-sm{padding:6px 12px;font-size:.8rem}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:28px;box-shadow:0 2px 10px rgba(0,0,0,.04);margin:28px 0}
+.panel h2{font-size:1.25rem;font-weight:800;color:var(--navy);margin-bottom:6px}
+.panel .sub{color:#666;font-size:.9rem;margin-bottom:20px}
+.login-wrap{max-width:420px;margin:60px auto}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid .full{grid-column:1/-1}
+label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#555;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;background:var(--white)}
+textarea{min-height:100px;resize:vertical}
+.form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.msg{padding:10px 12px;border-radius:8px;font-size:.9rem;margin-bottom:14px}
+.msg.error{background:#fde8e6;color:var(--danger)}
+.msg.info{background:#eef2f7;color:var(--navy)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;background:var(--grey)}
+.thumb{width:56px;height:56px;object-fit:cover;border-radius:8px;background:#111;display:block}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:999px}
+.badge.available{background:#e6f6ed;color:var(--ok)}
+.badge.sold{background:#eee;color:#666}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+.empty{text-align:center;padding:28px;color:#666}
+.preview-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.preview-item{position:relative;width:88px;height:88px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#111}
+.preview-item img{width:100%;height:100%;object-fit:cover}
+.preview-item button{position:absolute;top:4px;right:4px;width:22px;height:22px;border:none;border-radius:50%;background:rgba(0,0,0,.7);color:#fff;cursor:pointer;font-size:.75rem;line-height:1}
+@media(max-width:700px){.form-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="container">
+    <div>
+      <h1>Holiday Outboards Admin</h1>
+      <div class="meta" id="topMeta">Second-hand outboard stock (Neon)</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <a href="second-hand.html" class="btn btn-ghost">View public page</a>
+      <button type="button" class="btn btn-ghost hidden" id="logoutBtn">Sign out</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="panel login-wrap" id="loginPanel">
+    <h2>Staff sign in</h2>
+    <p class="sub">Enter the workshop admin password to manage listings.</p>
+    <div class="msg error hidden" id="loginError"></div>
+    <form id="loginForm">
+      <div class="form-grid">
+        <div class="full">
+          <label for="password">Password</label>
+          <input id="password" type="password" autocomplete="current-password" required>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="hidden" id="appPanel">
+    <div class="panel" id="listPanel">
+      <div class="toolbar">
+        <div>
+          <h2>Second-hand outboards</h2>
+          <p class="sub" style="margin:0">Add, edit, mark sold, or remove listings.</p>
+        </div>
+        <button type="button" class="btn btn-cream" id="addBtn">+ Add outboard</button>
+      </div>
+      <div class="msg error hidden" id="listError"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Photo</th><th>Outboard</th><th>Price</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="listingBody"><tr><td colspan="5" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel hidden" id="formPanel">
+      <h2 id="formTitle">Add outboard</h2>
+      <p class="sub">Photos are compressed and stored in Neon. Leave price blank for “Enquire”.</p>
+      <div class="msg error hidden" id="formError"></div>
+      <form id="listingForm">
+        <input type="hidden" id="listingId">
+        <div class="form-grid">
+          <div>
+            <label for="make">Make *</label>
+            <input id="make" list="makeList" required placeholder="Honda">
+            <datalist id="makeList">
+              <option value="Honda"><option value="Yamaha"><option value="Mercury">
+              <option value="Suzuki"><option value="Johnson"><option value="Evinrude">
+              <option value="Parsun"><option value="Tohatsu">
+            </datalist>
+          </div>
+          <div>
+            <label for="model">Model</label>
+            <input id="model" placeholder="BF90">
+          </div>
+          <div>
+            <label for="hp">HP</label>
+            <input id="hp" type="number" step="0.1" min="0">
+          </div>
+          <div>
+            <label for="year">Year</label>
+            <input id="year" type="number" min="1960" max="2100">
+          </div>
+          <div>
+            <label for="hours">Hours</label>
+            <input id="hours" type="number" min="0">
+          </div>
+          <div>
+            <label for="shaft">Shaft</label>
+            <select id="shaft">
+              <option value="">—</option>
+              <option>Short</option><option>Long</option><option>Extra long</option><option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="price">Price (NZD)</label>
+            <input id="price" type="number" min="0" step="1" placeholder="Blank = Enquire">
+          </div>
+          <div>
+            <label for="condition">Condition</label>
+            <select id="condition">
+              <option value="">—</option>
+              <option>Excellent</option><option>Good</option><option>Fair</option>
+              <option>Reconditioned</option><option>As is</option>
+            </select>
+          </div>
+          <div>
+            <label for="status">Status</label>
+            <select id="status">
+              <option value="available">Available</option>
+              <option value="sold">Sold</option>
+            </select>
+          </div>
+          <div class="full">
+            <label for="description">Description / notes</label>
+            <textarea id="description"></textarea>
+          </div>
+          <div class="full">
+            <label for="photos">Photos</label>
+            <input id="photos" type="file" accept="image/*" multiple>
+            <div class="preview-grid" id="previewGrid"></div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="saveBtn">Save listing</button>
+          <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var keepImageIds = [];
+  var pendingFiles = [];
+  var cache = {};
+
+  var loginPanel = document.getElementById('loginPanel');
+  var appPanel = document.getElementById('appPanel');
+  var listPanel = document.getElementById('listPanel');
+  var formPanel = document.getElementById('formPanel');
+  var logoutBtn = document.getElementById('logoutBtn');
+
+  function showMsg(el, text) {
+    if (!text) { el.classList.add('hidden'); el.textContent = ''; return; }
+    el.className = 'msg error';
+    el.textContent = text;
+    el.classList.remove('hidden');
+  }
+
+  function setSessionUI(authed) {
+    if (authed) {
+      loginPanel.classList.add('hidden');
+      appPanel.classList.remove('hidden');
+      logoutBtn.classList.remove('hidden');
+      document.getElementById('topMeta').textContent = 'Signed in';
+      loadListings();
+    } else {
+      loginPanel.classList.remove('hidden');
+      appPanel.classList.add('hidden');
+      logoutBtn.classList.add('hidden');
+      document.getElementById('topMeta').textContent = 'Second-hand outboard stock (Neon)';
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    showMsg(document.getElementById('loginError'), '');
+    try {
+      var data = await window.hoApi('/login', {
+        method: 'POST',
+        body: JSON.stringify({ password: document.getElementById('password').value })
+      });
+      window.hoSetToken(data.token);
+      setSessionUI(true);
+    } catch (err) {
+      showMsg(document.getElementById('loginError'), err.message);
+    }
+  });
+
+  logoutBtn.addEventListener('click', function () {
+    window.hoSetToken('');
+    setSessionUI(false);
+  });
+
+  async function loadListings() {
+    var body = document.getElementById('listingBody');
+    showMsg(document.getElementById('listError'), '');
+    body.innerHTML = '<tr><td colspan="5" class="empty">Loading…</td></tr>';
+    try {
+      var data = await window.hoApi('/listings');
+      var rows = data.listings || [];
+      cache = {};
+      rows.forEach(function (r) { cache[r.id] = r; });
+      if (!rows.length) {
+        body.innerHTML = '<tr><td colspan="5" class="empty">No listings yet. Click “Add outboard”.</td></tr>';
+        return;
+      }
+      body.innerHTML = rows.map(function (row) {
+        var title = [row.make, row.model].filter(Boolean).join(' ') + (row.hp ? ' · ' + row.hp + 'hp' : '');
+        var thumb = row.image_urls && row.image_urls[0]
+          ? '<img class="thumb" src="' + escapeHtml(row.image_urls[0]) + '" alt="">'
+          : '<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:#888;font-size:.7rem">No photo</div>';
+        var soldBtn = row.status === 'available'
+          ? '<button type="button" class="btn btn-outline btn-sm" data-sold="' + row.id + '">Mark sold</button>'
+          : '<button type="button" class="btn btn-outline btn-sm" data-available="' + row.id + '">Mark available</button>';
+        return '<tr><td>' + thumb + '</td><td><strong>' + escapeHtml(title) + '</strong>' +
+          (row.year ? '<div style="font-size:.8rem;color:#666">' + escapeHtml(String(row.year)) + '</div>' : '') +
+          '</td><td>' + escapeHtml(window.hoFormatPrice(row.price)) + '</td>' +
+          '<td><span class="badge ' + row.status + '">' + row.status + '</span></td>' +
+          '<td><div class="row-actions">' +
+            '<button type="button" class="btn btn-outline btn-sm" data-edit="' + row.id + '">Edit</button>' +
+            soldBtn +
+            '<button type="button" class="btn btn-danger btn-sm" data-delete="' + row.id + '">Delete</button>' +
+          '</div></td></tr>';
+      }).join('');
+    } catch (err) {
+      showMsg(document.getElementById('listError'), err.message);
+      body.innerHTML = '<tr><td colspan="5" class="empty">Could not load listings</td></tr>';
+    }
+  }
+
+  document.getElementById('listingBody').addEventListener('click', async function (e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    try {
+      if (btn.dataset.edit) {
+        openForm(cache[btn.dataset.edit]);
+        return;
+      }
+      if (btn.dataset.sold) {
+        await window.hoApi('/listing?id=' + encodeURIComponent(btn.dataset.sold), {
+          method: 'PATCH', body: JSON.stringify({ status: 'sold' })
+        });
+        await loadListings();
+        return;
+      }
+      if (btn.dataset.available) {
+        await window.hoApi('/listing?id=' + encodeURIComponent(btn.dataset.available), {
+          method: 'PATCH', body: JSON.stringify({ status: 'available' })
+        });
+        await loadListings();
+        return;
+      }
+      if (btn.dataset.delete) {
+        if (!confirm('Delete this listing and its photos?')) return;
+        await window.hoApi('/listing?id=' + encodeURIComponent(btn.dataset.delete), { method: 'DELETE' });
+        await loadListings();
+      }
+    } catch (err) {
+      showMsg(document.getElementById('listError'), err.message);
+    }
+  });
+
+  function openForm(row) {
+    listPanel.classList.add('hidden');
+    formPanel.classList.remove('hidden');
+    showMsg(document.getElementById('formError'), '');
+    document.getElementById('formTitle').textContent = row ? 'Edit outboard' : 'Add outboard';
+    document.getElementById('listingId').value = row ? row.id : '';
+    document.getElementById('make').value = row ? row.make : '';
+    document.getElementById('model').value = row ? (row.model || '') : '';
+    document.getElementById('hp').value = row && row.hp != null ? row.hp : '';
+    document.getElementById('year').value = row && row.year != null ? row.year : '';
+    document.getElementById('hours').value = row && row.hours != null ? row.hours : '';
+    document.getElementById('shaft').value = row && row.shaft ? row.shaft : '';
+    document.getElementById('price').value = row && row.price != null ? row.price : '';
+    document.getElementById('condition').value = row && row.condition ? row.condition : '';
+    document.getElementById('status').value = row ? row.status : 'available';
+    document.getElementById('description').value = row ? (row.description || '') : '';
+    document.getElementById('photos').value = '';
+    keepImageIds = row && row.image_ids ? row.image_ids.slice() : [];
+    pendingFiles = [];
+    renderPreviews(row && row.image_urls ? row.image_urls : []);
+  }
+
+  function closeForm() {
+    formPanel.classList.add('hidden');
+    listPanel.classList.remove('hidden');
+  }
+
+  document.getElementById('addBtn').addEventListener('click', function () { openForm(null); });
+  document.getElementById('cancelBtn').addEventListener('click', closeForm);
+
+  document.getElementById('photos').addEventListener('change', function (e) {
+    pendingFiles = pendingFiles.concat(Array.from(e.target.files || []));
+    e.target.value = '';
+    renderPreviews(keepImageIds.map(function (id) { return '/api/image/' + id; }));
+  });
+
+  function renderPreviews(existingUrls) {
+    var grid = document.getElementById('previewGrid');
+    var parts = [];
+    (existingUrls || []).forEach(function (url, i) {
+      parts.push('<div class="preview-item"><img src="' + escapeHtml(url) + '" alt="">' +
+        '<button type="button" data-remove-existing="' + i + '" aria-label="Remove">&times;</button></div>');
+    });
+    pendingFiles.forEach(function (file, i) {
+      parts.push('<div class="preview-item"><img src="' + URL.createObjectURL(file) + '" alt="">' +
+        '<button type="button" data-remove-pending="' + i + '" aria-label="Remove">&times;</button></div>');
+    });
+    grid.innerHTML = parts.join('') || '<span style="color:#888;font-size:.85rem">No photos yet</span>';
+  }
+
+  document.getElementById('previewGrid').addEventListener('click', function (e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    if (btn.dataset.removeExisting != null) {
+      keepImageIds.splice(Number(btn.dataset.removeExisting), 1);
+      renderPreviews(keepImageIds.map(function (id) { return '/api/image/' + id; }));
+    }
+    if (btn.dataset.removePending != null) {
+      pendingFiles.splice(Number(btn.dataset.removePending), 1);
+      renderPreviews(keepImageIds.map(function (id) { return '/api/image/' + id; }));
+    }
+  });
+
+  function numOrNull(v) {
+    if (v === '' || v == null) return null;
+    var n = Number(v);
+    return Number.isNaN(n) ? null : n;
+  }
+  function intOrNull(v) {
+    if (v === '' || v == null) return null;
+    var n = parseInt(v, 10);
+    return Number.isNaN(n) ? null : n;
+  }
+
+  document.getElementById('listingForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var saveBtn = document.getElementById('saveBtn');
+    showMsg(document.getElementById('formError'), '');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving…';
+    try {
+      var images = [];
+      for (var i = 0; i < pendingFiles.length; i++) {
+        images.push(await window.hoFileToImagePayload(pendingFiles[i]));
+      }
+      var payload = {
+        make: document.getElementById('make').value.trim(),
+        model: document.getElementById('model').value.trim(),
+        hp: numOrNull(document.getElementById('hp').value),
+        year: intOrNull(document.getElementById('year').value),
+        hours: intOrNull(document.getElementById('hours').value),
+        shaft: document.getElementById('shaft').value || null,
+        price: numOrNull(document.getElementById('price').value),
+        condition: document.getElementById('condition').value || null,
+        description: document.getElementById('description').value.trim(),
+        status: document.getElementById('status').value,
+        images: images,
+        keep_image_ids: keepImageIds
+      };
+      var id = document.getElementById('listingId').value;
+      if (id) {
+        await window.hoApi('/listing?id=' + encodeURIComponent(id), {
+          method: 'PUT', body: JSON.stringify(payload)
+        });
+      } else {
+        await window.hoApi('/listings', { method: 'POST', body: JSON.stringify(payload) });
+      }
+      closeForm();
+      await loadListings();
+    } catch (err) {
+      showMsg(document.getElementById('formError'), err.message);
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save listing';
+    }
+  });
+
+  // Boot — if token exists, try loading; 401 clears it
+  if (window.hoGetToken()) {
+    setSessionUI(true);
+  } else {
+    setSessionUI(false);
+  }
+})();
+</script>
+</body>
+</html>
