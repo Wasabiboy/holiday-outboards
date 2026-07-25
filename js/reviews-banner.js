@@ -48,4 +48,37 @@
   } else {
     document.body.insertBefore(banner, document.body.firstChild);
   }
+
+  // JS-driven horizontal marquee so it scrolls even when CSS animations
+  // are disabled (e.g. OS "Reduce motion"), which previously forced a grid.
+  var track = banner.querySelector('.reviews-track');
+  if (!track) return;
+
+  var offset = 0;
+  var speed = 0.45; // px per frame at ~60fps
+  var paused = false;
+  var halfWidth = 0;
+
+  function measure() {
+    halfWidth = track.scrollWidth / 2;
+  }
+
+  measure();
+  window.addEventListener('resize', measure);
+
+  banner.addEventListener('mouseenter', function () { paused = true; });
+  banner.addEventListener('mouseleave', function () { paused = false; });
+  banner.addEventListener('focusin', function () { paused = true; });
+  banner.addEventListener('focusout', function () { paused = false; });
+
+  function tick() {
+    if (!paused && halfWidth > 0) {
+      offset += speed;
+      if (offset >= halfWidth) offset -= halfWidth;
+      track.style.transform = 'translate3d(' + (-offset) + 'px,0,0)';
+    }
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
 })();
