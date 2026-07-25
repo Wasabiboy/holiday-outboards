@@ -295,5 +295,5 @@ body.modal-open{overflow:hidden}
   .article-modal .am-content{padding:22px 20px 24px}
   .article-modal .am-hero{height:140px}
   .reviews-rating{min-width:110px;padding:10px 12px}
-  .review-chip{max-width:280px}
+  .review-chip{width:260px;max-width:260px}
 }
