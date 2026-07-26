@@ -279,7 +279,7 @@ body.modal-open{overflow:hidden}
   .burger .burger-icon{font-size:1.6rem;line-height:1}
   .header .container{justify-content:flex-end}
   /* Mobile topbar: hide email only */
-  .topbar-info .email-only{display:none}
+  .topbar .topbar-info span.email-only{display:none !important}
 }
 @media(max-width:600px){
   .hero-video{height:45vh;min-height:260px}
