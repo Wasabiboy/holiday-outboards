@@ -283,7 +283,8 @@ body.modal-open{overflow:hidden}
   .hero-overlay h1{font-size:1.4rem}
   .hero-overlay p{font-size:.85rem}
   .hero-overlay .hero-btns a{padding:10px 18px;font-size:.85rem}
-  .logo-banner{padding:6px 8px}
+  .logo-banner{padding:6px 0}
+  .logo-banner .container{padding:0 8px;max-width:100%}
   .hero h1{font-size:1.8rem}
   .section-head h2{font-size:1.6rem}
   .footer .container{grid-template-columns:1fr}
