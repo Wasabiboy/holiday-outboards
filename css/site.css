@@ -275,8 +275,11 @@ body.modal-open{overflow:hidden}
   .footer .container{grid-template-columns:1fr 1fr}
   .nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--white);flex-direction:column;padding:14px 20px;box-shadow:0 4px 12px rgba(0,0,0,.1);gap:10px}
   .nav.open{display:flex}
-  .burger{display:block;margin-left:auto}
+  .burger{display:flex;align-items:center;gap:6px;margin-left:auto;background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--navy);font-weight:700;font-size:1rem}
+  .burger .burger-icon{font-size:1.6rem;line-height:1}
   .header .container{justify-content:flex-end}
+  /* Mobile topbar: phone only */
+  .topbar-info .addr-email{display:none}
 }
 @media(max-width:600px){
   .hero-video{height:45vh;min-height:260px}
