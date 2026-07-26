@@ -278,8 +278,8 @@ body.modal-open{overflow:hidden}
   .burger{display:flex;align-items:center;gap:6px;margin-left:auto;background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--navy);font-weight:700;font-size:1rem}
   .burger .burger-icon{font-size:1.6rem;line-height:1}
   .header .container{justify-content:flex-end}
-  /* Mobile topbar: phone only */
-  .topbar-info .addr-email{display:none}
+  /* Mobile topbar: hide email only */
+  .topbar-info .email-only{display:none}
 }
 @media(max-width:600px){
   .hero-video{height:45vh;min-height:260px}
