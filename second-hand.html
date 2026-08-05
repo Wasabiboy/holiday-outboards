@@ -124,7 +124,37 @@
   </div>
 </section>
 
-<!-- CURRENT STOCK (from Supabase) -->
+<!-- WORKSHOP GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">In the workshop</span>
+      <h2>Second-hand motors gallery</h2>
+      <p>A look at recent Evinrude E-TEC stock and workshop arrivals. Call us to check what’s available now.</p>
+    </div>
+    <div class="gallery-grid">
+      <button type="button" class="gallery-item" data-gallery-src="img/gallery-evinrude-150-115-90.jpg" data-gallery-alt="Evinrude E-TEC 150, 115 and 90hp outboards on a stand">
+        <img src="img/gallery-evinrude-150-115-90.jpg" alt="Evinrude E-TEC 150, 115 and 90hp outboards on a stand" loading="lazy">
+        <span class="gallery-cap">Evinrude E-TEC 150 · 115 · 90hp</span>
+      </button>
+      <button type="button" class="gallery-item" data-gallery-src="img/gallery-evinrude-60-pair.jpg" data-gallery-alt="Pair of Evinrude E-TEC 60hp outboards, white and black">
+        <img src="img/gallery-evinrude-60-pair.jpg" alt="Pair of Evinrude E-TEC 60hp outboards, white and black" loading="lazy">
+        <span class="gallery-cap">Evinrude E-TEC 60hp pair</span>
+      </button>
+      <button type="button" class="gallery-item" data-gallery-src="img/gallery-workshop-rib.jpg" data-gallery-alt="Workshop with RIB on trailer and Evinrude E-TEC outboards">
+        <img src="img/gallery-workshop-rib.jpg" alt="Workshop with RIB on trailer and Evinrude E-TEC outboards" loading="lazy">
+        <span class="gallery-cap">Workshop stock &amp; arrivals</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="gallery-lightbox" id="galleryLightbox" hidden>
+  <button type="button" class="gl-close" id="galleryClose" aria-label="Close">&times;</button>
+  <img id="galleryLightboxImg" src="" alt="">
+</div>
+
+<!-- CURRENT STOCK -->
 <section class="stock-section" id="stock">
   <div class="container">
     <div class="section-head">
@@ -185,6 +215,36 @@
 document.getElementById('burger').addEventListener('click',function(){
   document.getElementById('nav').classList.toggle('open');
 });
+
+(function galleryLightbox() {
+  var box = document.getElementById('galleryLightbox');
+  var img = document.getElementById('galleryLightboxImg');
+  var closeBtn = document.getElementById('galleryClose');
+  if (!box || !img) return;
+  function open(src, alt) {
+    img.src = src;
+    img.alt = alt || '';
+    box.hidden = false;
+    box.classList.add('open');
+    document.body.classList.add('gallery-open');
+  }
+  function close() {
+    box.classList.remove('open');
+    box.hidden = true;
+    img.src = '';
+    document.body.classList.remove('gallery-open');
+  }
+  document.querySelectorAll('.gallery-item').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      open(btn.getAttribute('data-gallery-src'), btn.getAttribute('data-gallery-alt'));
+    });
+  });
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && box.classList.contains('open')) close();
+  });
+})();
 
 (function loadStock() {
   var statusEl = document.getElementById('stockStatus');
