@@ -2,6 +2,55 @@
   publish = "."
   functions = "netlify/functions"
 
+# Pretty URLs: /service → service.html etc. (Netlify Asset Optimization)
+[build.processing]
+  skip_processing = false
+[build.processing.html]
+  pretty_urls = true
+
+# --- Legacy WordPress URLs from https://holidayoutboards.co.nz/page-sitemap.xml ---
+# Renamed pages (would 404 without these)
+[[redirects]]
+  from = "/contact-us"
+  to = "/contact.html"
+  status = 301
+
+[[redirects]]
+  from = "/contact-us/"
+  to = "/contact.html"
+  status = 301
+
+[[redirects]]
+  from = "/about-holiday-outboard"
+  to = "/about.html"
+  status = 301
+
+[[redirects]]
+  from = "/about-holiday-outboard/"
+  to = "/about.html"
+  status = 301
+
+# Same slug on old WP (trailing slash) → new static pages
+[[redirects]]
+  from = "/boat-store/"
+  to = "/boat-store.html"
+  status = 301
+
+[[redirects]]
+  from = "/video/"
+  to = "/video.html"
+  status = 301
+
+[[redirects]]
+  from = "/service/"
+  to = "/service.html"
+  status = 301
+
+[[redirects]]
+  from = "/parts/"
+  to = "/parts.html"
+  status = 301
+
 [[redirects]]
   from = "/api/login"
   to = "/.netlify/functions/login"

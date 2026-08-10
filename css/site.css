@@ -268,13 +268,14 @@ body.modal-open{overflow:hidden}
 
 /* ===== FOOTER ===== */
 .footer{background:var(--navy);color:var(--white);padding:40px 0 24px}
-.footer .container{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}
+.footer > .container:not(.footer-bottom){display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}
 .footer h5{font-size:.95rem;font-weight:700;color:var(--cream);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
 .footer p,.footer a{font-size:.85rem;color:rgba(255,255,255,.75)}
 .footer a:hover{color:var(--cream)}
 .footer ul{list-style:none}
 .footer ul li{margin-bottom:6px}
-.footer-bottom{text-align:center;border-top:1px solid rgba(255,255,255,.1);margin-top:30px;padding-top:18px;font-size:.78rem;opacity:.6}
+.footer-bottom{display:block;text-align:center;border-top:1px solid rgba(255,255,255,.1);margin-top:30px;padding:18px 20px 0;font-size:.78rem;opacity:.75;line-height:1.7}
+.footer-bottom a{color:var(--cream);text-decoration:underline}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:900px){
@@ -286,7 +287,7 @@ body.modal-open{overflow:hidden}
   .sh-grid{grid-template-columns:1fr}
   .contact-grid{grid-template-columns:1fr}
   .map-wrap{min-height:300px;position:relative}
-  .footer .container{grid-template-columns:1fr 1fr}
+  .footer > .container:not(.footer-bottom){grid-template-columns:1fr 1fr}
   .nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--white);flex-direction:column;padding:14px 20px;box-shadow:0 4px 12px rgba(0,0,0,.1);gap:10px}
   .nav.open{display:flex}
   .burger{display:flex;align-items:center;gap:6px;margin-left:auto;background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--navy);font-weight:700;font-size:1rem}
@@ -304,7 +305,7 @@ body.modal-open{overflow:hidden}
   .logo-banner .container{padding:0 8px;max-width:100%}
   .hero h1{font-size:1.8rem}
   .section-head h2{font-size:1.6rem}
-  .footer .container{grid-template-columns:1fr}
+  .footer > .container:not(.footer-bottom){grid-template-columns:1fr}
   .topbar .topbar-info{flex-direction:column;gap:4px}
   .outboard-grid{grid-template-columns:1fr}
   .article-teaser{flex-direction:column}
