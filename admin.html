@@ -78,8 +78,9 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
       <div class="meta" id="topMeta">Second-hand stock &amp; Honda pricing</div>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
-      <a href="second-hand.html" class="btn btn-ghost">Second-hand</a>
-      <a href="honda-outboards.html" class="btn btn-ghost">Honda range</a>
+      <a href="second-hand.html" class="btn btn-ghost">View second-hand</a>
+      <button type="button" class="btn btn-ghost hidden" id="hondaPricingNavBtn">Honda pricing</button>
+      <a href="honda-outboards.html" class="btn btn-ghost hidden" id="viewHondaPageBtn" target="_blank" rel="noopener">View Honda page</a>
       <button type="button" class="btn btn-ghost hidden" id="logoutBtn">Sign out</button>
     </div>
   </div>
@@ -244,6 +245,8 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
   var formPanel = document.getElementById('formPanel');
   var hondaPricePanel = document.getElementById('hondaPricePanel');
   var logoutBtn = document.getElementById('logoutBtn');
+  var hondaPricingNavBtn = document.getElementById('hondaPricingNavBtn');
+  var viewHondaPageBtn = document.getElementById('viewHondaPageBtn');
   var hondaModelsCache = [];
 
   var CAT_LABELS = {
@@ -261,11 +264,23 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
     el.classList.remove('hidden');
   }
 
+  function showAdminPanel(panelId) {
+    document.querySelectorAll('#adminTabs button').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-panel') === panelId);
+    });
+    listPanel.classList.toggle('hidden', panelId !== 'listPanel');
+    hondaPricePanel.classList.toggle('hidden', panelId !== 'hondaPricePanel');
+    formPanel.classList.add('hidden');
+    if (panelId === 'hondaPricePanel') loadHondaPrices();
+  }
+
   function setSessionUI(authed) {
     if (authed) {
       loginPanel.classList.add('hidden');
       appPanel.classList.remove('hidden');
       logoutBtn.classList.remove('hidden');
+      hondaPricingNavBtn.classList.remove('hidden');
+      viewHondaPageBtn.classList.remove('hidden');
       document.getElementById('topMeta').textContent = 'Signed in';
       loadListings();
       loadHondaPrices();
@@ -273,20 +288,21 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
       loginPanel.classList.remove('hidden');
       appPanel.classList.add('hidden');
       logoutBtn.classList.add('hidden');
+      hondaPricingNavBtn.classList.add('hidden');
+      viewHondaPageBtn.classList.add('hidden');
       document.getElementById('topMeta').textContent = 'Second-hand stock & Honda pricing';
     }
   }
 
   document.querySelectorAll('#adminTabs button').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      document.querySelectorAll('#adminTabs button').forEach(function (b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      var panel = btn.getAttribute('data-panel');
-      listPanel.classList.toggle('hidden', panel !== 'listPanel');
-      hondaPricePanel.classList.toggle('hidden', panel !== 'hondaPricePanel');
-      formPanel.classList.add('hidden');
-      if (panel === 'listPanel') listPanel.classList.remove('hidden');
+      showAdminPanel(btn.getAttribute('data-panel'));
     });
+  });
+
+  hondaPricingNavBtn.addEventListener('click', function () {
+    if (appPanel.classList.contains('hidden')) return;
+    showAdminPanel('hondaPricePanel');
   });
 
   async function loadHondaPrices() {

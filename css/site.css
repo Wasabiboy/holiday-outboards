@@ -109,7 +109,7 @@ section{padding:56px 0}
 .outboard-card .card-body .more-details dd{margin:0;font-weight:600;color:var(--navy)}
 .outboard-card .card-body .more-details .feat-list{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
 .outboard-card .card-body .more-details .feat-list li{background:#f0f4f6;color:var(--navy);padding:3px 8px;border-radius:4px;font-size:.75rem;font-weight:600}
-.outboard-card .card-body .enquire{display:inline-block;margin-top:8px;background:var(--navy);color:var(--white);padding:7px 16px;border-radius:6px;font-size:.85rem;font-weight:600}
+.outboard-card .card-body .enquire{display:inline-block;margin-top:8px;margin-left:16px;background:var(--navy);color:var(--white);padding:7px 16px;border-radius:6px;font-size:.85rem;font-weight:600}
 .outboard-card .card-body .enquire:hover{background:var(--teal);text-decoration:none}
 
 /* ===== SECOND-HAND ===== */
