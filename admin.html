@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin — Second-Hand Outboards | Holiday Outboards</title>
+<title>Admin — Stock & Honda Pricing | Holiday Outboards</title>
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#011B3E">
 <script src="js/api-client.js"></script>
@@ -56,6 +56,17 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
 .preview-item{position:relative;width:88px;height:88px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#111}
 .preview-item img{width:100%;height:100%;object-fit:cover}
 .preview-item button{position:absolute;top:4px;right:4px;width:22px;height:22px;border:none;border-radius:50%;background:rgba(0,0,0,.7);color:#fff;cursor:pointer;font-size:.75rem;line-height:1}
+.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 0}
+.admin-tabs button{appearance:none;border:1px solid var(--line);background:var(--white);color:var(--dark);padding:8px 14px;border-radius:8px;font-weight:700;font-size:.88rem;cursor:pointer}
+.admin-tabs button.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.price-grid-wrap{overflow-x:auto}
+.price-grid{width:100%;border-collapse:collapse;font-size:.9rem}
+.price-grid th,.price-grid td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.price-grid th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;background:var(--grey)}
+.price-grid input[type="number"]{width:120px;padding:8px 10px}
+.price-grid input[type="checkbox"]{width:auto;transform:scale(1.15)}
+.price-grid .cat{font-size:.75rem;color:#888;text-transform:uppercase;letter-spacing:.4px}
+.msg.ok{background:#e6f6ed;color:var(--ok)}
 @media(max-width:700px){.form-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -64,10 +75,11 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
   <div class="container">
     <div>
       <h1>Holiday Outboards Admin</h1>
-      <div class="meta" id="topMeta">Second-hand outboard stock (Neon)</div>
+      <div class="meta" id="topMeta">Second-hand stock &amp; Honda pricing</div>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
-      <a href="second-hand.html" class="btn btn-ghost">View public page</a>
+      <a href="second-hand.html" class="btn btn-ghost">Second-hand</a>
+      <a href="honda-outboards.html" class="btn btn-ghost">Honda range</a>
       <button type="button" class="btn btn-ghost hidden" id="logoutBtn">Sign out</button>
     </div>
   </div>
@@ -92,6 +104,11 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
   </div>
 
   <div class="hidden" id="appPanel">
+    <div class="admin-tabs" id="adminTabs">
+      <button type="button" class="active" data-panel="listPanel">Second-hand stock</button>
+      <button type="button" data-panel="hondaPricePanel">Honda pricing</button>
+    </div>
+
     <div class="panel" id="listPanel">
       <div class="toolbar">
         <div>
@@ -107,6 +124,32 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
             <tr><th>Photo</th><th>Outboard</th><th>Price</th><th>Status</th><th>Actions</th></tr>
           </thead>
           <tbody id="listingBody"><tr><td colspan="5" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel hidden" id="hondaPricePanel">
+      <div class="toolbar">
+        <div>
+          <h2>Honda outboard pricing</h2>
+          <p class="sub" style="margin:0">Edit prices shown on the public Honda range page. Tick “Show on site” to display a price instead of Enquire.</p>
+        </div>
+        <button type="button" class="btn btn-primary" id="saveHondaPricesBtn">Save prices</button>
+      </div>
+      <div class="msg error hidden" id="hondaPriceError"></div>
+      <div class="msg ok hidden" id="hondaPriceOk"></div>
+      <div class="price-grid-wrap">
+        <table class="price-grid">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>HP</th>
+              <th>Category</th>
+              <th>Price (NZD)</th>
+              <th>Show on site</th>
+            </tr>
+          </thead>
+          <tbody id="hondaPriceBody"><tr><td colspan="5" class="empty">Loading…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -198,11 +241,21 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
   var appPanel = document.getElementById('appPanel');
   var listPanel = document.getElementById('listPanel');
   var formPanel = document.getElementById('formPanel');
+  var hondaPricePanel = document.getElementById('hondaPricePanel');
   var logoutBtn = document.getElementById('logoutBtn');
+  var hondaModelsCache = [];
 
-  function showMsg(el, text) {
+  var CAT_LABELS = {
+    portable: 'Portable',
+    midrange: 'Mid Range',
+    inline4: 'Inline 4',
+    highpower: 'High Power',
+    '300plus': '300+'
+  };
+
+  function showMsg(el, text, kind) {
     if (!text) { el.classList.add('hidden'); el.textContent = ''; return; }
-    el.className = 'msg error';
+    el.className = 'msg ' + (kind || 'error');
     el.textContent = text;
     el.classList.remove('hidden');
   }
@@ -214,13 +267,81 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
       logoutBtn.classList.remove('hidden');
       document.getElementById('topMeta').textContent = 'Signed in';
       loadListings();
+      loadHondaPrices();
     } else {
       loginPanel.classList.remove('hidden');
       appPanel.classList.add('hidden');
       logoutBtn.classList.add('hidden');
-      document.getElementById('topMeta').textContent = 'Second-hand outboard stock (Neon)';
+      document.getElementById('topMeta').textContent = 'Second-hand stock & Honda pricing';
     }
   }
+
+  document.querySelectorAll('#adminTabs button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('#adminTabs button').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var panel = btn.getAttribute('data-panel');
+      listPanel.classList.toggle('hidden', panel !== 'listPanel');
+      hondaPricePanel.classList.toggle('hidden', panel !== 'hondaPricePanel');
+      formPanel.classList.add('hidden');
+      if (panel === 'listPanel') listPanel.classList.remove('hidden');
+    });
+  });
+
+  async function loadHondaPrices() {
+    var body = document.getElementById('hondaPriceBody');
+    showMsg(document.getElementById('hondaPriceError'), '');
+    showMsg(document.getElementById('hondaPriceOk'), '');
+    body.innerHTML = '<tr><td colspan="5" class="empty">Loading…</td></tr>';
+    try {
+      var data = await window.hoApi('/honda-prices');
+      hondaModelsCache = data.models || [];
+      if (!hondaModelsCache.length) {
+        body.innerHTML = '<tr><td colspan="5" class="empty">No Honda models found. Run neon/honda-prices.sql on the database.</td></tr>';
+        return;
+      }
+      body.innerHTML = hondaModelsCache.map(function (m) {
+        return '<tr data-sku="' + escapeHtml(m.sku) + '">' +
+          '<td><strong>' + escapeHtml(m.name) + '</strong><div class="cat">' + escapeHtml(m.sku) + '</div></td>' +
+          '<td>' + (m.hp != null ? escapeHtml(String(m.hp)) : '—') + '</td>' +
+          '<td class="cat">' + escapeHtml(CAT_LABELS[m.category] || m.category) + '</td>' +
+          '<td><input type="number" min="0" step="1" class="hp-price" value="' + (m.price != null ? escapeHtml(String(m.price)) : '') + '" placeholder="Blank = Enquire"></td>' +
+          '<td><input type="checkbox" class="hp-show"' + (m.show_price ? ' checked' : '') + '></td>' +
+          '</tr>';
+      }).join('');
+    } catch (err) {
+      body.innerHTML = '<tr><td colspan="5" class="empty">Could not load prices.</td></tr>';
+      showMsg(document.getElementById('hondaPriceError'), err.message);
+    }
+  }
+
+  document.getElementById('saveHondaPricesBtn').addEventListener('click', async function () {
+    var errEl = document.getElementById('hondaPriceError');
+    var okEl = document.getElementById('hondaPriceOk');
+    showMsg(errEl, '');
+    showMsg(okEl, '');
+    var rows = Array.prototype.slice.call(document.querySelectorAll('#hondaPriceBody tr[data-sku]'));
+    var models = rows.map(function (tr) {
+      var priceInput = tr.querySelector('.hp-price');
+      var showInput = tr.querySelector('.hp-show');
+      var raw = priceInput.value.trim();
+      return {
+        sku: tr.getAttribute('data-sku'),
+        price: raw === '' ? null : Number(raw),
+        show_price: !!(showInput && showInput.checked)
+      };
+    });
+    try {
+      var data = await window.hoApi('/honda-prices', {
+        method: 'PUT',
+        body: JSON.stringify({ models: models })
+      });
+      showMsg(okEl, 'Saved ' + (data.saved || models.length) + ' model prices. Public Honda page will show updates shortly.', 'ok');
+      loadHondaPrices();
+    } catch (err) {
+      showMsg(errEl, err.message);
+    }
+  });
 
   function escapeHtml(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -317,6 +438,7 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
 
   function openForm(row) {
     listPanel.classList.add('hidden');
+    hondaPricePanel.classList.add('hidden');
     formPanel.classList.remove('hidden');
     showMsg(document.getElementById('formError'), '');
     document.getElementById('formTitle').textContent = row ? 'Edit outboard' : 'Add outboard';
@@ -340,6 +462,9 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
   function closeForm() {
     formPanel.classList.add('hidden');
     listPanel.classList.remove('hidden');
+    document.querySelectorAll('#adminTabs button').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-panel') === 'listPanel');
+    });
   }
 
   document.getElementById('addBtn').addEventListener('click', function () { openForm(null); });
