@@ -96,9 +96,9 @@
         </div>
       </div>
       <div class="outboard-card" data-sku="bf5" data-cat="portable">
-        <div class="card-img"><span class="hp-badge">5 HP</span><img src="img/bf5.png" alt="Honda BF5 outboard"></div>
+        <div class="card-img"><span class="hp-badge">6 HP</span><img src="img/bf5.png" alt="Honda BF6 outboard"></div>
         <div class="card-body">
-          <h4>Honda BF5</h4>
+          <h4>Honda BF6</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Weight</span><span>27 kg</span></div><div><span>Shaft</span><span>Short / Long</span></div></div>
           <div class="price" data-sku="bf5"><span class="price-val">Enquire</span> <small class="price-note">for price</small></div>
           <a href="contact.html" class="enquire">Enquire now</a>
@@ -165,7 +165,7 @@
         <div class="card-body">
           <h4>Honda BF40</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>3</span></div><div><span>From</span><span>$11,695</span></div></div>
-          <div class="price" data-sku="bf40"><span class="price-val">From $11,695</span> <small class="price-note">incl GST</small></div>
+          <div class="price" data-sku="bf40"><span class="price-val">From $12,195</span> <small class="price-note">incl GST</small></div>
           <a href="contact.html" class="enquire">Enquire now</a>
         </div>
       </div>
@@ -174,7 +174,7 @@
         <div class="card-body">
           <h4>Honda BF50</h4>
           <div class="specs"><div><span>Type</span><span>4-Stroke</span></div><div><span>Cylinders</span><span>3</span></div><div><span>From</span><span>$12,795</span></div></div>
-          <div class="price" data-sku="bf50"><span class="price-val">From $12,795</span> <small class="price-note">incl GST</small></div>
+          <div class="price" data-sku="bf50"><span class="price-val">From $13,295</span> <small class="price-note">incl GST</small></div>
           <a href="contact.html" class="enquire">Enquire now</a>
         </div>
       </div>
@@ -407,6 +407,79 @@ document.querySelectorAll('#tabs button').forEach(function(btn){
   function formatPrice(n){
     return '$' + Number(n).toLocaleString('en-NZ', { maximumFractionDigits: 0 });
   }
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function featureTags(m){
+    var tags = [];
+    if (m.manual_start) tags.push('Manual start');
+    if (m.electric_start) tags.push('Electric start');
+    if (m.power_tilt) tags.push('Power tilt');
+    if (m.trim_tilt) tags.push('Trim &amp; tilt');
+    if (m.tiller) tags.push('Tiller');
+    if (m.remote) tags.push('Remote');
+    if (m.vtec) tags.push('VTEC');
+    if (m.drive_by_wire) tags.push('Drive-by-wire');
+    return tags;
+  }
+  function buildDetailsHtml(m){
+    var rows = [];
+    if (m.model_code) rows.push(['Model code', m.model_code]);
+    if (m.shaft) rows.push(['Shaft', m.shaft]);
+    if (m.displacement) rows.push(['Engine', m.displacement]);
+    if (m.prop) rows.push(['Prop', m.prop]);
+    if (m.fuel_tank) rows.push(['Fuel tank', m.fuel_tank]);
+    if (m.dry_weight) rows.push(['Dry weight', m.dry_weight]);
+    if (m.amp_charge) rows.push(['Charging', m.amp_charge]);
+    var tags = featureTags(m);
+    if (!rows.length && !tags.length) return '';
+    var html = '<dl>';
+    rows.forEach(function(r){
+      html += '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>';
+    });
+    html += '</dl>';
+    if (tags.length) {
+      html += '<ul class="feat-list">' + tags.map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ul>';
+    }
+    return html;
+  }
+  function ensureDetailsUi(card, m){
+    var body = card.querySelector('.card-body');
+    if (!body) return;
+    var enquire = body.querySelector('.enquire');
+    var btn = body.querySelector('.more-details-btn');
+    var panel = body.querySelector('.more-details');
+    var html = buildDetailsHtml(m);
+    if (!html) {
+      if (btn) btn.remove();
+      if (panel) panel.remove();
+      return;
+    }
+    if (!panel) {
+      panel = document.createElement('div');
+      panel.className = 'more-details';
+      panel.setAttribute('hidden', '');
+      if (enquire) body.insertBefore(panel, enquire);
+      else body.appendChild(panel);
+    }
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'more-details-btn';
+      btn.textContent = 'More details';
+      btn.setAttribute('aria-expanded', 'false');
+      if (enquire) body.insertBefore(btn, panel);
+      else body.insertBefore(btn, panel);
+      btn.addEventListener('click', function(){
+        var open = panel.classList.toggle('open');
+        if (open) panel.removeAttribute('hidden');
+        else panel.setAttribute('hidden', '');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.textContent = open ? 'Hide details' : 'More details';
+      });
+    }
+    panel.innerHTML = html;
+  }
   function apply(models){
     (models || []).forEach(function(m){
       var el = document.querySelector('.price[data-sku="' + m.sku + '"]');
@@ -419,6 +492,26 @@ document.querySelectorAll('#tabs button').forEach(function(btn){
       } else {
         if (val) val.textContent = 'Enquire';
         if (note) note.textContent = 'for price';
+      }
+      var card = el.closest('.outboard-card');
+      if (card) {
+        if (m.name) {
+          var h4 = card.querySelector('.card-body h4');
+          if (h4) h4.textContent = m.name;
+        }
+        if (m.hp != null) {
+          var badge = card.querySelector('.hp-badge');
+          if (badge) badge.textContent = (Number(m.hp) % 1 === 0 ? Number(m.hp) : m.hp) + ' HP';
+        }
+        if (m.dry_weight) {
+          var specs = card.querySelectorAll('.specs div');
+          specs.forEach(function(row){
+            var label = row.querySelector('span:first-child');
+            var value = row.querySelector('span:last-child');
+            if (label && value && /weight/i.test(label.textContent)) value.textContent = m.dry_weight.replace(/kg$/i, ' kg').replace(/\s+kg/, ' kg');
+          });
+        }
+        ensureDetailsUi(card, m);
       }
     });
   }

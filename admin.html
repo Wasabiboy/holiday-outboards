@@ -132,7 +132,7 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
       <div class="toolbar">
         <div>
           <h2>Honda outboard pricing</h2>
-          <p class="sub" style="margin:0">Edit prices shown on the public Honda range page. Tick “Show on site” to display a price instead of Enquire.</p>
+          <p class="sub" style="margin:0">July 2025 RRP (incl GST) for a representative config. Tick “Show on site” to display a price instead of Enquire. Specs appear under “More details” on the public page.</p>
         </div>
         <button type="button" class="btn btn-primary" id="saveHondaPricesBtn">Save prices</button>
       </div>
@@ -143,13 +143,14 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
           <thead>
             <tr>
               <th>Model</th>
+              <th>Sheet code</th>
               <th>HP</th>
               <th>Category</th>
-              <th>Price (NZD)</th>
+              <th>Price (NZD incl GST)</th>
               <th>Show on site</th>
             </tr>
           </thead>
-          <tbody id="hondaPriceBody"><tr><td colspan="5" class="empty">Loading…</td></tr></tbody>
+          <tbody id="hondaPriceBody"><tr><td colspan="6" class="empty">Loading…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -292,17 +293,26 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
     var body = document.getElementById('hondaPriceBody');
     showMsg(document.getElementById('hondaPriceError'), '');
     showMsg(document.getElementById('hondaPriceOk'), '');
-    body.innerHTML = '<tr><td colspan="5" class="empty">Loading…</td></tr>';
+    body.innerHTML = '<tr><td colspan="6" class="empty">Loading…</td></tr>';
     try {
       var data = await window.hoApi('/honda-prices');
       hondaModelsCache = data.models || [];
       if (!hondaModelsCache.length) {
-        body.innerHTML = '<tr><td colspan="5" class="empty">No Honda models found. Run neon/honda-prices.sql on the database.</td></tr>';
+        body.innerHTML = '<tr><td colspan="6" class="empty">No Honda models found. Run neon/honda-prices.sql on the database.</td></tr>';
         return;
       }
       body.innerHTML = hondaModelsCache.map(function (m) {
+        var code = m.model_code || '—';
+        var bits = [];
+        if (m.shaft) bits.push(m.shaft);
+        if (m.electric_start) bits.push('Electric');
+        if (m.tiller) bits.push('Tiller');
+        if (m.remote) bits.push('Remote');
+        if (m.trim_tilt) bits.push('Trim &amp; tilt');
+        var detail = bits.length ? '<div class="cat">' + bits.join(' · ') + '</div>' : '';
         return '<tr data-sku="' + escapeHtml(m.sku) + '">' +
-          '<td><strong>' + escapeHtml(m.name) + '</strong><div class="cat">' + escapeHtml(m.sku) + '</div></td>' +
+          '<td><strong>' + escapeHtml(m.name) + '</strong><div class="cat">' + escapeHtml(m.sku) + '</div>' + detail + '</td>' +
+          '<td class="cat" style="font-size:.78rem;white-space:nowrap">' + escapeHtml(code) + '</td>' +
           '<td>' + (m.hp != null ? escapeHtml(String(m.hp)) : '—') + '</td>' +
           '<td class="cat">' + escapeHtml(CAT_LABELS[m.category] || m.category) + '</td>' +
           '<td><input type="number" min="0" step="1" class="hp-price" value="' + (m.price != null ? escapeHtml(String(m.price)) : '') + '" placeholder="Blank = Enquire"></td>' +
@@ -310,7 +320,7 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#666;back
           '</tr>';
       }).join('');
     } catch (err) {
-      body.innerHTML = '<tr><td colspan="5" class="empty">Could not load prices.</td></tr>';
+      body.innerHTML = '<tr><td colspan="6" class="empty">Could not load prices.</td></tr>';
       showMsg(document.getElementById('hondaPriceError'), err.message);
     }
   }

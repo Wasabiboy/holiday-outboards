@@ -10,6 +10,21 @@ CREATE TABLE IF NOT EXISTS public.honda_models (
   price numeric(10,2),
   show_price boolean NOT NULL DEFAULT false,
   notes text NOT NULL DEFAULT '',
+  model_code text NOT NULL DEFAULT '',
+  shaft text NOT NULL DEFAULT '',
+  displacement text NOT NULL DEFAULT '',
+  prop text NOT NULL DEFAULT '',
+  fuel_tank text NOT NULL DEFAULT '',
+  dry_weight text NOT NULL DEFAULT '',
+  amp_charge text NOT NULL DEFAULT '',
+  manual_start boolean NOT NULL DEFAULT false,
+  electric_start boolean NOT NULL DEFAULT false,
+  power_tilt boolean NOT NULL DEFAULT false,
+  trim_tilt boolean NOT NULL DEFAULT false,
+  tiller boolean NOT NULL DEFAULT false,
+  remote boolean NOT NULL DEFAULT false,
+  vtec boolean NOT NULL DEFAULT false,
+  drive_by_wire boolean NOT NULL DEFAULT false,
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 
@@ -21,20 +36,39 @@ CREATE TRIGGER honda_models_updated_at
   BEFORE UPDATE ON public.honda_models
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
+-- Spec / price columns for existing DBs (safe to re-run)
+ALTER TABLE public.honda_models
+  ADD COLUMN IF NOT EXISTS model_code text NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS shaft text NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS displacement text NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS prop text NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS fuel_tank text NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS dry_weight text NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS amp_charge text NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS manual_start boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS electric_start boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS power_tilt boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS trim_tilt boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS tiller boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS remote boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS vtec boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS drive_by_wire boolean NOT NULL DEFAULT false;
+
+-- Seed SKUs only (prices/specs applied by _seed_july2025.js or admin)
 INSERT INTO public.honda_models (sku, name, category, hp, sort_order, price, show_price) VALUES
   ('bf23', 'Honda BF2.3', 'portable', 2.3, 10, NULL, false),
-  ('bf5', 'Honda BF5', 'portable', 5, 20, NULL, false),
+  ('bf5', 'Honda BF6', 'portable', 6, 20, NULL, false),
   ('bf8', 'Honda BF8', 'portable', 8, 30, NULL, false),
   ('bf10', 'Honda BF10', 'portable', 10, 40, NULL, false),
   ('bf15', 'Honda BF15', 'portable', 15, 50, NULL, false),
   ('bf20', 'Honda BF20', 'portable', 20, 60, NULL, false),
   ('bf25', 'Honda BF25', 'midrange', 25, 70, NULL, false),
   ('bf30', 'Honda BF30', 'midrange', 30, 80, NULL, false),
-  ('bf40', 'Honda BF40', 'midrange', 40, 90, 11695, true),
-  ('bf50', 'Honda BF50', 'midrange', 50, 100, 12795, true),
-  ('bf60', 'Honda BF60', 'midrange', 60, 110, 13895, true),
+  ('bf40', 'Honda BF40', 'midrange', 40, 90, NULL, false),
+  ('bf50', 'Honda BF50', 'midrange', 50, 100, NULL, false),
+  ('bf60', 'Honda BF60', 'midrange', 60, 110, NULL, false),
   ('bf75', 'Honda BF75', 'midrange', 75, 120, NULL, false),
-  ('bf80', 'Honda BF80', 'midrange', 80, 130, 14995, true),
+  ('bf80', 'Honda BF80', 'midrange', 80, 130, NULL, false),
   ('bf90', 'Honda BF90', 'midrange', 90, 140, NULL, false),
   ('bf100', 'Honda BF100', 'midrange', 100, 150, NULL, false),
   ('bf115', 'Honda BF115', 'inline4', 115, 160, NULL, false),
@@ -52,9 +86,4 @@ ON CONFLICT (sku) DO UPDATE SET
   name = EXCLUDED.name,
   category = EXCLUDED.category,
   hp = EXCLUDED.hp,
-  sort_order = EXCLUDED.sort_order,
-  price = COALESCE(honda_models.price, EXCLUDED.price),
-  show_price = CASE
-    WHEN honda_models.price IS NOT NULL THEN honda_models.show_price
-    ELSE EXCLUDED.show_price
-  END;
+  sort_order = EXCLUDED.sort_order;

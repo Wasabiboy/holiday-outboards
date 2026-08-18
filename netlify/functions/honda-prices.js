@@ -10,6 +10,21 @@ function mapModel(row) {
     price: row.price != null ? Number(row.price) : null,
     show_price: !!row.show_price,
     notes: row.notes || '',
+    model_code: row.model_code || '',
+    shaft: row.shaft || '',
+    displacement: row.displacement || '',
+    prop: row.prop || '',
+    fuel_tank: row.fuel_tank || '',
+    dry_weight: row.dry_weight || '',
+    amp_charge: row.amp_charge || '',
+    manual_start: !!row.manual_start,
+    electric_start: !!row.electric_start,
+    power_tilt: !!row.power_tilt,
+    trim_tilt: !!row.trim_tilt,
+    tiller: !!row.tiller,
+    remote: !!row.remote,
+    vtec: !!row.vtec,
+    drive_by_wire: !!row.drive_by_wire,
     updated_at: row.updated_at
   };
 }

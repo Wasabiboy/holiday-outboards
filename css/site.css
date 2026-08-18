@@ -100,6 +100,15 @@ section{padding:56px 0}
 .outboard-card .card-body .specs div{display:flex;justify-content:space-between;padding:2px 0}
 .outboard-card .card-body .price{font-size:1.1rem;font-weight:800;color:var(--teal)}
 .outboard-card .card-body .price small{font-size:.75rem;color:#888;font-weight:500}
+.outboard-card .card-body .more-details-btn{display:inline-block;margin-top:8px;padding:0;border:0;background:none;color:var(--teal);font-size:.82rem;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.outboard-card .card-body .more-details-btn:hover{color:var(--navy)}
+.outboard-card .card-body .more-details{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:.8rem;color:#555}
+.outboard-card .card-body .more-details.open{display:block}
+.outboard-card .card-body .more-details dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px}
+.outboard-card .card-body .more-details dt{color:#888;font-weight:500}
+.outboard-card .card-body .more-details dd{margin:0;font-weight:600;color:var(--navy)}
+.outboard-card .card-body .more-details .feat-list{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.outboard-card .card-body .more-details .feat-list li{background:#f0f4f6;color:var(--navy);padding:3px 8px;border-radius:4px;font-size:.75rem;font-weight:600}
 .outboard-card .card-body .enquire{display:inline-block;margin-top:8px;background:var(--navy);color:var(--white);padding:7px 16px;border-radius:6px;font-size:.85rem;font-weight:600}
 .outboard-card .card-body .enquire:hover{background:var(--teal);text-decoration:none}
 

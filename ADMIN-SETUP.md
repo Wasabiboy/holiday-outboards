@@ -14,6 +14,7 @@ On the `holidayoutboards` Neon project:
 
 - Second-hand schema: [`neon/schema.sql`](neon/schema.sql)
 - Honda pricing schema/seed: [`neon/honda-prices.sql`](neon/honda-prices.sql)
+- July 2025 RRP + specs seed (local): `node scripts/_seed_july2025.js` (needs `DATABASE_URL`)
 
 ## 2. Environment variables
 
@@ -45,6 +46,6 @@ Redeploy the Netlify site after pushing so production functions pick up code and
 1. Visit `/admin.html`
 2. Sign in with `ADMIN_PASSWORD`
 3. **Second-hand stock** — add listings and photos (shown on [`second-hand.html`](second-hand.html))
-4. **Honda pricing** — edit model prices and tick **Show on site** to display them on [`honda-outboards.html`](honda-outboards.html)
+4. **Honda pricing** — edit RRP (incl GST) and tick **Show on site**. Sheet model codes and specs (shaft, prop, electric, etc.) show under **More details** on [`honda-outboards.html`](honda-outboards.html)
 
 Leave price blank (or untick Show on site) to keep “Enquire for price” on the public page.
