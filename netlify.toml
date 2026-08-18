@@ -68,5 +68,6 @@
 
 [[redirects]]
   from = "/api/image/*"
-  to = "/.netlify/functions/image?id=:splat"
+  to = "/.netlify/functions/image/:splat"
   status = 200
+  force = true

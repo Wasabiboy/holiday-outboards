@@ -1,5 +1,44 @@
 const { getSql } = require('./_shared');
 
+function getImageId(event) {
+  const q = event.queryStringParameters || {};
+  if (q.id) return String(q.id).trim();
+
+  // Support /api/image/:id and /.netlify/functions/image/:id rewrites
+  const candidates = [event.path, event.rawPath, event.rawUrl]
+    .filter(Boolean)
+    .map(String);
+  for (const raw of candidates) {
+    try {
+      const pathOnly = raw.includes('://') ? new URL(raw).pathname : raw;
+      const parts = pathOnly.split('/').filter(Boolean);
+      const idx = parts.findIndex((p) => p === 'image');
+      if (idx >= 0 && parts[idx + 1]) return decodeURIComponent(parts[idx + 1]).trim();
+      const last = parts[parts.length - 1];
+      if (last && last !== 'image') return decodeURIComponent(last).trim();
+    } catch (_) {
+      /* ignore */
+    }
+  }
+  return '';
+}
+
+function toBuffer(data) {
+  if (!data) return Buffer.alloc(0);
+  if (Buffer.isBuffer(data)) return data;
+  if (data instanceof Uint8Array) return Buffer.from(data);
+  if (typeof data === 'string') {
+    // Neon may return hex-encoded bytea as \x...
+    if (data.startsWith('\\x')) return Buffer.from(data.slice(2), 'hex');
+    if (/^[0-9a-fA-F]+$/.test(data) && data.length % 2 === 0) {
+      try { return Buffer.from(data, 'hex'); } catch (_) { /* fall through */ }
+    }
+    return Buffer.from(data, 'base64');
+  }
+  if (Array.isArray(data)) return Buffer.from(data);
+  return Buffer.from(data);
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return {
@@ -18,7 +57,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const id = (event.queryStringParameters && event.queryStringParameters.id) || '';
+    const id = getImageId(event);
     if (!id) return { statusCode: 400, body: 'Missing id' };
 
     const sql = getSql();
@@ -31,9 +70,8 @@ exports.handler = async (event) => {
     if (!rows.length) return { statusCode: 404, body: 'Not found' };
 
     const row = rows[0];
-    const buf = Buffer.isBuffer(row.data)
-      ? row.data
-      : Buffer.from(row.data);
+    const buf = toBuffer(row.data);
+    if (!buf.length) return { statusCode: 404, body: 'Empty image' };
 
     return {
       statusCode: 200,
