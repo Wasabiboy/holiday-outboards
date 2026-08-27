@@ -3,6 +3,8 @@ Allow: /
 
 Disallow: /admin
 Disallow: /admin.html
+Disallow: /demo
+Disallow: /demo.html
 Disallow: /api/
 
 Sitemap: https://holidayoutboards.co.nz/sitemap.xml
